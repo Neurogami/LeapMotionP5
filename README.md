@@ -27,9 +27,6 @@ License
 ========
 
 
-LICENSE
--------
-
 (The MIT License)
 
 Copyright (c) 2013 James Britt / Neurogami
