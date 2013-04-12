@@ -1,7 +1,19 @@
 import com.neurogami.leaphacking.*;
 
-// Sketch to work out how to render a point from Leap data.
+/*
 
+
+This example takes an average of all detected pointables and uses that 
+as the point to render on the screen.  
+
+It shows the pint coordinates at the  x,y location
+
+Z value is rendered by chaging the darkness of the font color; they further 
+away the lighter it gets.
+
+
+
+*/
 
 NgListener listener = new NgListener();
 Controller controller;
@@ -16,7 +28,7 @@ void setup() {
   size(displayWidth, displayHeight, OPENGL);
 
   yMax = xMax =  -100;
-  yMin = xMin = 1300;
+  yMin = xMin =  1300;
 
   leap = new LeapMotionP5(this);
   controller = leap.createController((Listener) listener);
@@ -27,15 +39,16 @@ void setup() {
 //-------------------------------------------------------------------
 void draw() {
   background(255);
-  // writePosition();
-
+  writePosition();
 }
 
 
 //-------------------------------------------------------------------
-/*
-com.leapmotion.leap.Vector lastPos() {
-  com.leapmotion.leap.Vector  lp =  listener.lastPos();
+//  Do we need to explicitly name-space the Vector references to avoid confusion with
+// some built-in Java Vector?
+// com.leapmotion.leap.Vector lastPos() {
+Vector lastPos() {
+  Vector  lp =  listener.lastPos();
 
   if (lp.getX() < xMin ){ xMin = lp.getX(); }
   if (lp.getY() < yMin ){ yMin = lp.getY(); }
@@ -46,7 +59,7 @@ com.leapmotion.leap.Vector lastPos() {
   println(lp);
   return lp;
 }
-*/
+
 
 //-------------------------------------------------------------------
 /* The trick to guestimate the upper and lower bounds for the X value
@@ -110,7 +123,7 @@ int mapYforScreen(float yy){
 
 
 //-------------------------------------------------------------------
-int zToColorInt(float fz){
+int zToColorInt(float fz) {
   int z = int(fz);
   int minZ = -20;
   int maxZ = 100;
@@ -124,20 +137,17 @@ int zToColorInt(float fz){
   }
 
   return int(map(z, minZ, maxZ,  0, 255));
-
 }
-/*
+
 void writePosition(){
 
-  textSize(32);
   int zMap = zToColorInt(lastPos().getZ());
-  fill(zMap, zMap, zMap);
-
   int baseY = mapYforScreen( lastPos().getY() );
-
   int inc = 30;
-
   int xLoc = mapXforScreen(lastPos().getX()); 
+
+  textSize(32);
+  fill(zMap, zMap, zMap);
 
   println("lastPos() X : " + lastPos() );
   text("X: " + lastPos().getX() , xLoc, baseY);
@@ -151,4 +161,3 @@ void writePosition(){
   text("max Y: "  + yMax, xLoc, baseY + inc*7 );
 
 }
-*/
