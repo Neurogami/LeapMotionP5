@@ -1,5 +1,6 @@
 import com.neurogami.leaphacking.*;
 
+<<<<<<< HEAD
 /*
 
 This example takes an average of all detected pointables and uses that 
@@ -14,6 +15,11 @@ away the lighter it gets.
 
 */
 
+=======
+// Sketch to work out how to render a point from Leap data.
+
+
+>>>>>>> Developing lib based on tangible use cases
 NgListener listener = new NgListener();
 Controller controller;
 
@@ -27,6 +33,7 @@ void setup() {
   size(displayWidth, displayHeight, OPENGL);
 
   yMax = xMax =  -100;
+<<<<<<< HEAD
   yMin = xMin =  1300;
 
   leap = new LeapMotionP5(this);
@@ -36,6 +43,12 @@ void setup() {
 // yourself.
 
 //  controller = new Controller(listener);
+=======
+  yMin = xMin = 1300;
+
+  leap = new LeapMotionP5(this);
+  controller = leap.createController((Listener) listener);
+>>>>>>> Developing lib based on tangible use cases
 
 }
 
@@ -43,16 +56,28 @@ void setup() {
 //-------------------------------------------------------------------
 void draw() {
   background(255);
+<<<<<<< HEAD
   writePosition();
+=======
+  // writePosition();
+
+>>>>>>> Developing lib based on tangible use cases
 }
 
 
 //-------------------------------------------------------------------
+<<<<<<< HEAD
 Vector lastPos() {
   Vector  lp = listener.lastPos();
 
 // Although the point-rendering is restricted to the size of the screen,
 // it's interesting to see the range values detected.
+=======
+/*
+com.leapmotion.leap.Vector lastPos() {
+  com.leapmotion.leap.Vector  lp =  listener.lastPos();
+
+>>>>>>> Developing lib based on tangible use cases
   if (lp.getX() < xMin ){ xMin = lp.getX(); }
   if (lp.getY() < yMin ){ yMin = lp.getY(); }
 
@@ -60,10 +85,16 @@ Vector lastPos() {
   if (lp.getY() > yMax ){  yMax = lp.getY(); }
 
   println(lp);
+<<<<<<< HEAD
 
   return lp;
 }
 
+=======
+  return lp;
+}
+*/
+>>>>>>> Developing lib based on tangible use cases
 
 //-------------------------------------------------------------------
 /* The trick to guestimate the upper and lower bounds for the X value
@@ -90,9 +121,17 @@ Vector lastPos() {
 
    If you are about 7 inches or so away you can get a range pf -200 to +200
 
+<<<<<<< HEAD
    Y seems to range from 0 to about 400, after which things get flakey.
 
    The trick is to find an X/Y range that works OK, and then somehow corral outliers into
+=======
+
+   Y seems to range from 0 to about 400, after which things get flakey.
+
+
+   The trick is to find an X/Y range that works OK, and somehow corral outliers into
+>>>>>>> Developing lib based on tangible use cases
    that range.  Using `constrain` seems to make it sort of jumpy.
 
    Perhaps we could assign keys for setting the "view" range, where you hit l, r, t, and b
@@ -101,30 +140,57 @@ Vector lastPos() {
    have `map` make the adjustments.
 
 
+<<<<<<< HEAD
  */
 int mapXforScreen(float xx) {
   int topX = 150;
   int x  = constrain( int(xx), topX * -1, topX);
+=======
+
+ */
+int mapXforScreen(float xx) {
+
+  int topX = 150;
+  int x  = constrain( int(xx), topX * -1, topX);
+
+>>>>>>> Developing lib based on tangible use cases
   return( int( map(x, topX * -1, topX, 0, width) ) );
 }
 
 //-------------------------------------------------------------------
+<<<<<<< HEAD
 int mapYforScreen(float yy) {
+=======
+int mapYforScreen(float yy){
+  // We need to invert this somehow.  
+  // When yy is larger then we want to a smaller value of screen y
+>>>>>>> Developing lib based on tangible use cases
 
   int topY = 300;
   int y  = constrain( int(yy), 0, topY);
 
   return( int( map(y, 0, topY,  height, 0) ) );
+<<<<<<< HEAD
+=======
+
+>>>>>>> Developing lib based on tangible use cases
 }
 
 
 //-------------------------------------------------------------------
+<<<<<<< HEAD
 int zToColorInt(float fz) {
 
   int z = int(fz);
    
   int minZ = -220;
   int maxZ = 200;
+=======
+int zToColorInt(float fz){
+  int z = int(fz);
+  int minZ = -20;
+  int maxZ = 100;
+>>>>>>> Developing lib based on tangible use cases
 
   if (z < minZ) {
     return 0;
@@ -135,6 +201,7 @@ int zToColorInt(float fz) {
   }
 
   return int(map(z, minZ, maxZ,  0, 255));
+<<<<<<< HEAD
 }
 
 void writePosition(){
@@ -146,6 +213,22 @@ void writePosition(){
 
   textSize(32);
   fill(zMap, zMap, zMap);
+=======
+
+}
+/*
+void writePosition(){
+
+  textSize(32);
+  int zMap = zToColorInt(lastPos().getZ());
+  fill(zMap, zMap, zMap);
+
+  int baseY = mapYforScreen( lastPos().getY() );
+
+  int inc = 30;
+
+  int xLoc = mapXforScreen(lastPos().getX()); 
+>>>>>>> Developing lib based on tangible use cases
 
   println("lastPos() X : " + lastPos() );
   text("X: " + lastPos().getX() , xLoc, baseY);
@@ -159,3 +242,7 @@ void writePosition(){
   text("max Y: "  + yMax, xLoc, baseY + inc*7 );
 
 }
+<<<<<<< HEAD
+=======
+*/
+>>>>>>> Developing lib based on tangible use cases

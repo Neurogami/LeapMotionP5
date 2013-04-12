@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /***********************************************************************
 
   A typical Leap app works like this:
@@ -57,18 +58,42 @@ class NgListener extends Listener {
 
   //------------------------------------------------------------
   void onConnect(Controller controller) {
+=======
+class NgListener extends Listener {
+
+  com.leapmotion.leap.Vector avgPos;
+
+  //------------------------------------------------------------
+  public void onInit(Controller controller) {
+    println("Initialized");
+    avgPos = com.leapmotion.leap.Vector.zero();
+  }
+
+  //------------------------------------------------------------
+  public void onConnect(Controller controller) {
+>>>>>>> Developing lib based on tangible use cases
     println("Connected");
   }
 
   //------------------------------------------------------------
+<<<<<<< HEAD
   void onDisconnect(Controller controller) {
+=======
+  public void onDisconnect(Controller controller) {
+>>>>>>> Developing lib based on tangible use cases
     println("Disconnected");
   }
 
   //------------------------------------------------------------
+<<<<<<< HEAD
   void onFrame(Controller controller) {
 
     Frame frame = controller.frame();
+=======
+  public void onFrame(Controller controller) {
+
+    com.leapmotion.leap.Frame frame = controller.frame();
+>>>>>>> Developing lib based on tangible use cases
     HandList hands = frame.hands();
 
     if (hands.count() > 0 ) {
@@ -77,7 +102,11 @@ class NgListener extends Listener {
       FingerList fingers = hand.fingers();
       if (fingers.count() >= 1) {
         println("Fingers!");
+<<<<<<< HEAD
         avgPos = Vector.zero();
+=======
+        avgPos = com.leapmotion.leap.Vector.zero();
+>>>>>>> Developing lib based on tangible use cases
         for (Finger finger : fingers) {
           avgPos  = avgPos.plus(finger.tipPosition());
         }
@@ -88,6 +117,7 @@ class NgListener extends Listener {
       } // if fingers
     } //  if hands 
 
+<<<<<<< HEAD
   } 
 
 
@@ -96,4 +126,14 @@ class NgListener extends Listener {
     return(avgPos);
   }
 } 
+=======
+  } // onFrame
+
+  //------------------------------------------------------------
+  com.leapmotion.leap.Vector lastPos(){
+
+    return(avgPos);
+  }
+} // class
+>>>>>>> Developing lib based on tangible use cases
 
