@@ -1,4 +1,15 @@
 distribution
 .project
 .classpath
-
+notes.md
+examples/PointerLocation/code/*.*
+examples/PointerLocation/code/x64
+examples/PointerLocation/code/x86
+.metadata
+BUILD.bat
+lib/Leap.dll
+lib/LeapJava.dll
+lib/LeapJava.jar
+lib/Leap.dll
+lib/Leapd.dll
+web
