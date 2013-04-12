@@ -13,3 +13,6 @@ lib/LeapJava.jar
 lib/Leap.dll
 lib/Leapd.dll
 web
+__build.rb
+tmp
+bin

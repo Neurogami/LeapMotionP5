@@ -2,11 +2,10 @@ import com.neurogami.leaphacking.*;
 
 /*
 
-
 This example takes an average of all detected pointables and uses that 
 as the point to render on the screen.  
 
-It shows the pint coordinates at the  x,y location
+It shows the point coordinate values at the  x,y location
 
 Z value is rendered by chaging the darkness of the font color; they further 
 away the lighter it gets.
@@ -31,7 +30,12 @@ void setup() {
   yMin = xMin =  1300;
 
   leap = new LeapMotionP5(this);
-  controller = leap.createController((Listener) listener);
+  controller = leap.createController(listener);
+// There are two ways to get a controller instance; not sure
+// using a helper method buy you anything since you can just do it
+// yourself.
+
+//  controller = new Controller(listener);
 
 }
 
@@ -44,12 +48,11 @@ void draw() {
 
 
 //-------------------------------------------------------------------
-//  Do we need to explicitly name-space the Vector references to avoid confusion with
-// some built-in Java Vector?
-// com.leapmotion.leap.Vector lastPos() {
 Vector lastPos() {
-  Vector  lp =  listener.lastPos();
+  Vector  lp = listener.lastPos();
 
+// Although the point-rendering is restricted to the size of the screen,
+// it's interesting to see the range values detected.
   if (lp.getX() < xMin ){ xMin = lp.getX(); }
   if (lp.getY() < yMin ){ yMin = lp.getY(); }
 
@@ -57,6 +60,7 @@ Vector lastPos() {
   if (lp.getY() > yMax ){  yMax = lp.getY(); }
 
   println(lp);
+
   return lp;
 }
 
@@ -86,11 +90,9 @@ Vector lastPos() {
 
    If you are about 7 inches or so away you can get a range pf -200 to +200
 
-
    Y seems to range from 0 to about 400, after which things get flakey.
 
-
-   The trick is to find an X/Y range that works OK, and somehow corral outliers into
+   The trick is to find an X/Y range that works OK, and then somehow corral outliers into
    that range.  Using `constrain` seems to make it sort of jumpy.
 
    Perhaps we could assign keys for setting the "view" range, where you hit l, r, t, and b
@@ -99,34 +101,30 @@ Vector lastPos() {
    have `map` make the adjustments.
 
 
-
  */
 int mapXforScreen(float xx) {
-
   int topX = 150;
   int x  = constrain( int(xx), topX * -1, topX);
-
   return( int( map(x, topX * -1, topX, 0, width) ) );
 }
 
 //-------------------------------------------------------------------
-int mapYforScreen(float yy){
-  // We need to invert this somehow.  
-  // When yy is larger then we want to a smaller value of screen y
+int mapYforScreen(float yy) {
 
   int topY = 300;
   int y  = constrain( int(yy), 0, topY);
 
   return( int( map(y, 0, topY,  height, 0) ) );
-
 }
 
 
 //-------------------------------------------------------------------
 int zToColorInt(float fz) {
+
   int z = int(fz);
-  int minZ = -20;
-  int maxZ = 100;
+   
+  int minZ = -220;
+  int maxZ = 200;
 
   if (z < minZ) {
     return 0;

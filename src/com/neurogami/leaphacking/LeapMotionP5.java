@@ -33,35 +33,28 @@ import processing.core.*;
 
 public class LeapMotionP5 {
 
-  // myParent is a reference to the parent sketch
+  // owner is a reference to the parent sketch
   PApplet owner;
 
   public final static String VERSION = "##library.prettyVersion##";
 
-
   /**
    * a Constructor, usually called in the setup() method in your sketch to
    * initialize and start the library.
+   *
+   * It isn't essential for this library, as you can just import the library 
+   * and then create Leap Motion class instances on your own.
    * 
    * @example LeapMotionP5
-   * @param owner
+   * @param ownerP
    */
   public LeapMotionP5(PApplet ownerP) {
     owner = ownerP;
-//    owner.registerMethod("dispose", this);
   }
 
-  public Controller createController(Listener listener) {
-    return(new Controller(listener));
+  public Controller createController(Object listener) {
+    return( new Controller( (Listener) listener) );
   }
-
-  public void dispose() {
-    // Need to clean up any objects we created, such as listener or controller.
-  }
-
-  // private void welcome() {
-  //  System.out.println("##library.name## ##library.prettyVersion## by ##author##");
-  // }
 
 
   /**
