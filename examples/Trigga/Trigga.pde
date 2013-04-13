@@ -1,92 +1,65 @@
 import com.neurogami.leaphacking.*;
 
-
 /*
 
-vi
+   v4
 
+   This examples show how to use the angle between fingers to determin 
+   what has been detected.
 
-This examples show how to use the angle between fingers to determin 
-what has been detected.
-
-*/
+ */
 
 NgListener listener = new NgListener();
 Controller controller;
 
-float yMax, xMax;
-float yMin, xMin;
+boolean pause;
+int pauseMax = 100;
+int pauseCount = 0;
 
-LeapMotionP5 leap;
+// LeapMotionP5 leap;
 
+//-------------------------------------------------------------------
 void setup() {
   size(700, 500, OPENGL);
-
-  yMax = xMax =  -100;
-  yMin = xMin =  1300;
-
-
-controller = new Controller(listener);
-
+  controller = new Controller(listener);
 }
 
 
 //-------------------------------------------------------------------
 void draw() {
-  background(255);
-  renderHand();
-}
-
-
-
-
-int mapXforScreen(float xx) {
-  int topX = 150;
-  int x  = constrain( int(xx), topX * -1, topX);
-  return( int( map(x, topX * -1, topX, 0, width) ) );
-}
-
-//-------------------------------------------------------------------
-int mapYforScreen(float yy) {
-
-  int topY = 300;
-  int y  = constrain( int(yy), 0, topY);
-
-  return( int( map(y, 0, topY,  height, 0) ) );
-}
-
-
-//-------------------------------------------------------------------
-int zToColorInt(float fz) {
-
-  int z = int(fz);
-   
-  int minZ = -220;
-  int maxZ = 200;
-
-  if (z < minZ) {
-    return 0;
+  processBlamPause(); 
+  if (!pause) { 
+    background(255);
+    renderHand();
   }
-
-  if (z > maxZ) {
-    return 255;
-  }
-
-  return int(map(z, minZ, maxZ,  0, 255));
 }
 
 //-------------------------------------------------------------------
-void renderHand(){
+void processBlamPause() {
+  if (pause)  {
+    pauseCount++;
 
-//   int zMap = zToColorInt(lastPos().getZ());
-//    int baseY = mapYforScreen( lastPos().getY() );
-//    int inc = 30;
-//    int xLoc = mapXforScreen(lastPos().getX()); 
+    if (pauseCount > pauseMax) {
+      pause = false;
+      pauseCount = 0;
+    }
+  }
+}
+
+//-------------------------------------------------------------------
+void renderHand() {
 
   textSize(32);
-  fill(250, 30, 90);
+  fill(20, 30, 190);
 
-  println("haveGun() X : " + listener.haveGun() );
   text("haveGun() X : " + listener.haveGun() , 100, 100 );
 
+  if (listener.havePull()) {
+    textSize(42);
+    background(250, 30, 90);
+    fill(0, 0, 0);
+    text("B L A M O !", 100, 100 );
+    pause = true;
+  }
 }
+
