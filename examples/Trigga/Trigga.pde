@@ -38,22 +38,6 @@ void draw() {
 }
 
 
-//-------------------------------------------------------------------
-Vector lastPos() {
-  Vector  lp = listener.lastPos();
-
-// Although the point-rendering is restricted to the size of the screen,
-// it's interesting to see the range values detected.
-  if (lp.getX() < xMin ){ xMin = lp.getX(); }
-  if (lp.getY() < yMin ){ yMin = lp.getY(); }
-
-  if (lp.getX() > xMax ){  xMax = lp.getX(); }
-  if (lp.getY() > yMax ){  yMax = lp.getY(); }
-
-  println(lp);
-
-  return lp;
-}
 
 
 int mapXforScreen(float xx) {
@@ -94,23 +78,15 @@ int zToColorInt(float fz) {
 //-------------------------------------------------------------------
 void renderHand(){
 
-  int zMap = zToColorInt(lastPos().getZ());
-  int baseY = mapYforScreen( lastPos().getY() );
-  int inc = 30;
-  int xLoc = mapXforScreen(lastPos().getX()); 
+//   int zMap = zToColorInt(lastPos().getZ());
+//    int baseY = mapYforScreen( lastPos().getY() );
+//    int inc = 30;
+//    int xLoc = mapXforScreen(lastPos().getX()); 
 
   textSize(32);
-  fill(zMap, zMap, zMap);
+  fill(250, 30, 90);
 
-  println("lastPos() X : " + lastPos() );
-  text("X: " + lastPos().getX() , xLoc, baseY);
-  text("Y: "  + lastPos().getY(), xLoc, baseY + inc*2 );
-  text("Z: "  + lastPos().getZ(), xLoc, baseY + inc*3 );
-
-  text("min X: "  + xMin, xLoc, baseY + inc*4 );
-  text("max X: "  + xMax, xLoc, baseY + inc*5 );
-
-  text("min Y: "  + yMin, xLoc, baseY + inc*6 );
-  text("max Y: "  + yMax, xLoc, baseY + inc*7 );
+  println("haveGun() X : " + listener.haveGun() );
+  text("haveGun() X : " + listener.haveGun() , 100, 100 );
 
 }
