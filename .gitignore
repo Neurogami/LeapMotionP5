@@ -5,6 +5,12 @@ notes.md
 examples/PointerLocation/code/*.*
 examples/PointerLocation/code/x64
 examples/PointerLocation/code/x86
+
+
+examples/Trigga/code/*.*
+examples/Trigga/code/x64
+examples/Trigga/code/x86
+
 .metadata
 BUILD.bat
 lib/Leap.dll
