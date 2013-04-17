@@ -11,6 +11,8 @@ examples/Trigga/code/*.*
 examples/Trigga/code/x64
 examples/Trigga/code/x86
 
+experiments
+
 .metadata
 BUILD.bat
 lib/Leap.dll
