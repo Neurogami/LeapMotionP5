@@ -11,6 +11,10 @@ examples/Trigga/code/*.*
 examples/Trigga/code/x64
 examples/Trigga/code/x86
 
+examples/BasicOSC/code/*.*
+examples/BasicOSC/code/x64
+examples/BasicOSC/code/x86
+
 experiments
 
 .metadata
