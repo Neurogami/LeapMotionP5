@@ -5,7 +5,7 @@ notes.md
 examples/PointerLocation/code/*.*
 examples/PointerLocation/code/x64
 examples/PointerLocation/code/x86
-
+*.log
 
 examples/Trigga/code/*.*
 examples/Trigga/code/x64
