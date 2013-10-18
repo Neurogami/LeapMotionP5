@@ -11,7 +11,7 @@ james@neurogami.com
 See also the [Leap Hacking](http://leaphacking.com) Web site for news and articles about making the most of your Leap Motion device.
 
 
-DESCRIPTION
+Description
 ===========
 
 This is (as you may have guessed) a [Processing](http://processing.org) library to make it easier to use the Leap Motion Java libraries in your sketches.
@@ -21,6 +21,32 @@ Distribution of the actual Leap Motion library files is currently not allowed by
 You should use the most current Leap Motion libraries available.  If this P5 library does not work with the latest Leap libs then this library is broken.
 
 
+Building the library
+====================
+
+I've only ever bothered to use this on Windows, but if you are on OSX you should be able to adapt these steps with little trouble.
+
+You need to have Apache `ant` installed in order ot run the build.
+
+These steps assume the `ant`  executable is already on your `%PATH%`. If not, then you can use the full path the executable.
+
+
+    cd resources
+    ant 
+    cd ..
+    
+
+ Seems pretty simple, right? Here's the catch: every so often this fails. I get errors such as
+
+
+       c:\Users\james\repos\LeapMotionP5\resources\build.xml:268: Couldn't rename temporary file
+
+Re-running the process usually takes care of this.  
+
+
+Another issue is when ant decides it will not delete the old jar file before copying over the new one.
+
+What seems to be the cause is a hidden Java (i.e.Processing) process running that is referencing that jar.  If you are trying out the library and kill your sketch it is possible for the sketch to appear to close while the underlying java.exe process is still running.
 
 
 License 
