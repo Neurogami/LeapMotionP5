@@ -42,7 +42,7 @@ public class LeapMotionP5 {
    * a Constructor, usually called in the setup() method in your sketch to
    * initialize and start the library.
    *
-   * It isn't essential for this library, as you can just import the library 
+   * It isn't essential to have this library, as you can just import the library 
    * and then create Leap Motion class instances on your own.
    * 
    * @example LeapMotionP5

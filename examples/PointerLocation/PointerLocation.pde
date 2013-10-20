@@ -31,8 +31,9 @@ void setup() {
 
   yMax = xMax =  -100;
   yMin = xMin =  1300;
-
-  leap = new LeapMotionP5(this);
+// Is this even needed?
+ // leap = new LeapMotionP5(this);
+ //
 //   listener.setOwner(this);
   //controller = leap.createController(listener);
 // There are two ways to get a controller instance; not usre

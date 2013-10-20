@@ -1,4 +1,5 @@
 
+
 class NgListener extends Listener {
 
   Vector avgPos;
@@ -31,7 +32,7 @@ class NgListener extends Listener {
       FingerList fingers = hand.fingers();
       if (fingers.count() >= 1) {
         println("Fingers!");
-        avgPos = Vector.zero();
+          avgPos = Vector.zero();
         for (Finger finger : fingers) {
           avgPos  = avgPos.plus(finger.tipPosition());
         }
