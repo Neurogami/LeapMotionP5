@@ -5,6 +5,22 @@ notes.md
 examples/PointerLocation/code/*.*
 examples/PointerLocation/code/x64
 examples/PointerLocation/code/x86
+
+
+#examples/PointerLocation2/code/*.*
+#examples/PointerLocation2/code/x64
+#examples/PointerLocation2/code/x86
+
+
+#examples/PointerLocation3/code/*.*
+#examples/PointerLocation3/code/x64
+#examples/PointerLocation3/code/x86
+
+
+#examples/PointerLocation4/code/*.*
+#examples/PointerLocation4/code/x64
+#examples/PointerLocation4/code/x86
+
 *.log
 
 examples/Trigga/code/*.*
