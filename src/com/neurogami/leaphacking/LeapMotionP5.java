@@ -43,7 +43,7 @@ public class LeapMotionP5 {
   // owner is a reference to the parent sketch
   PApplet owner;
   public Controller defaultController;
-  
+
   public HandList globalHands;
   public DefaultListener defaultListener;
   public final static String VERSION = "##library.prettyVersion##";
@@ -61,15 +61,25 @@ public class LeapMotionP5 {
   public LeapMotionP5(PApplet ownerP) {
     owner = ownerP;
     defaultListener = new DefaultListener();
+    defaultListener.owner = ownerP;
     defaultController = createController(defaultListener);
   }
+
+  public LeapMotionP5(PApplet ownerP, boolean useCallbackListener ) {
+    owner = ownerP;
+    defaultListener = new DefaultListener();
+    defaultListener.owner = ownerP;
+    defaultListener.useFrameCallback = useCallbackListener;
+    defaultController = createController(defaultListener);
+  }
+
 
   public Controller createController(Object listener) {
     return( new Controller( (Listener) listener) );
   }
 
   public HandList hands() {
-     return defaultListener.hands();
+    return defaultListener.hands();
   }
 
 
