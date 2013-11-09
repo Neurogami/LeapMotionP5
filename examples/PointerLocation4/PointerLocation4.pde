@@ -17,7 +17,7 @@ void setup() {
 
   avgPos = Vector.zero();
   leap = new LeapMotionP5(this, true);
-
+  leap.allowBackgroundProcessing(true);
   
 }
 

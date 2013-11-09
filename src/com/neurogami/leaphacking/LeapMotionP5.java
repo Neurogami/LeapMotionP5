@@ -75,7 +75,18 @@ public class LeapMotionP5 {
 
 
   public Controller createController(Object listener) {
-    return( new Controller( (Listener) listener) );
+    Controller controller = new Controller( (Listener) listener);
+    //controller.setPolicyFlags(Controller.PolicyFlag.POLICY_BACKGROUND_FRAMES);
+    return( controller );
+  }
+
+  public void  allowBackgroundProcessing( boolean policy ) {
+    if (policy == true ) {
+      defaultController.setPolicyFlags(Controller.PolicyFlag.POLICY_BACKGROUND_FRAMES);
+    } else {
+      defaultController.setPolicyFlags(Controller.PolicyFlag.POLICY_DEFAULT);
+    }
+  
   }
 
   public HandList hands() {
