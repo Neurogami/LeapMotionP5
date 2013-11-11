@@ -1,5 +1,47 @@
 # Using the LeapMotionP5 Library #
 
+** --------------------------------------------------------------
+
+Need to organize this better.
+
+The current lib allows for:
+
+  - Straight-up Java-style roll-your-own Listener
+  - Use the default Listener and pull data from the `leap` instance, inside of `draw`
+  - Use an `onFrame` callback which is sort of a mix of the first two options.
+
+
+Might consider adding some sort of gesture recognition into the PointerLocation examples to show how that works.
+
+Also need to describe using the `allowBackgroundProcessing` method.
+
+Maybe do the gesture stuff in the OSC example; use the same basic behavior but done using different techniques.
+
+For example, a circle gesture changes the kind of OSC message sent; if no fingers, watch for a gesture. If fingers, send OSC based on current OSC pattern selected.  If a gesture, move among the different OSC patterns.  
+
+Note: that is the premise for a possible app.
+
+Anyway, give it some thought.
+
+For purposes of these docs, perhaps start with basic hand-data access and move from there.
+
+Then use a simple OSC example: Left-hand finger-count selects among possible messages or track target, right hand is used for values.
+
+Perhaps as you change LH values the screen changes to indicate what operations are available. 
+
+So, show two LH fingers and the screen shows you track columns for volume.  The RH location will send volume commands if the hand is close enough to the screen. 
+
+Show 4 LH fingers and you get a screen for something to do with beat juggling somehow.  Maybe a way to set the next pattern, or to jump to another pattern right away? Need to see what the default Renoise OSC allows. Then provide an xrns that can be used with the demo version of Renoise.
+
+Also consider slot-mute, and setting a pattern loop range. 
+
+     * http://tutorials.renoise.com/wiki/Open_Sound_Control *
+
+Look at some previous OSC stuff you've done. There must be something. 
+
+
+---------------------------------------------------------------- **
+
 ## Intro ##
 
 `LeapMotionP5` is a Processing library to allow your sketches to use the Leap Motion controller.

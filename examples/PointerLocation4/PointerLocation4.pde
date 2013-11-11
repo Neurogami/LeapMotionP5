@@ -22,7 +22,7 @@ void setup() {
 }
 
 void onFrame(com.leapmotion.leap.Controller controller) {
-  println("SKETCH onFrame!");
+
   processController(controller);
 }
 

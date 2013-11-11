@@ -42,7 +42,7 @@ public class LeapMotionP5 {
 
   // owner is a reference to the parent sketch
   PApplet owner;
-  public Controller defaultController;
+  public Controller controller;
 
   public HandList globalHands;
   public DefaultListener defaultListener;
@@ -62,7 +62,7 @@ public class LeapMotionP5 {
     owner = ownerP;
     defaultListener = new DefaultListener();
     defaultListener.owner = ownerP;
-    defaultController = createController(defaultListener);
+    controller = createController(defaultListener);
   }
 
   public LeapMotionP5(PApplet ownerP, boolean useCallbackListener ) {
@@ -70,21 +70,19 @@ public class LeapMotionP5 {
     defaultListener = new DefaultListener();
     defaultListener.owner = ownerP;
     defaultListener.useFrameCallback = useCallbackListener;
-    defaultController = createController(defaultListener);
+    controller = createController(defaultListener);
   }
 
 
   public Controller createController(Object listener) {
-    Controller controller = new Controller( (Listener) listener);
-    //controller.setPolicyFlags(Controller.PolicyFlag.POLICY_BACKGROUND_FRAMES);
-    return( controller );
+    return( new Controller( (Listener) listener) );
   }
 
   public void  allowBackgroundProcessing( boolean policy ) {
     if (policy == true ) {
-      defaultController.setPolicyFlags(Controller.PolicyFlag.POLICY_BACKGROUND_FRAMES);
+      controller.setPolicyFlags(Controller.PolicyFlag.POLICY_BACKGROUND_FRAMES);
     } else {
-      defaultController.setPolicyFlags(Controller.PolicyFlag.POLICY_DEFAULT);
+      controller.setPolicyFlags(Controller.PolicyFlag.POLICY_DEFAULT);
     }
   
   }
