@@ -59,7 +59,7 @@ class DefaultListener extends Listener {
     globalHands = globalFrame.hands();
 
     if (useFrameCallback == true ) {
-      System.err.println("useFrameCallback!");
+      // System.err.println("useFrameCallback!");
 
       // This needs to be dynamic!
       //       owner.onFrame(controller);
@@ -67,18 +67,18 @@ class DefaultListener extends Listener {
 //  Need to see how to cache the method reference. THis plan here isn't working.
 //  It seems that on each pass the refernce ot the method is no good.
   //      if ( onFrameCallback == null ) {
-          System.err.println("Need to acquire the method ...");
+          // System.err.println("Need to acquire the method ...");
           Class[] cArg = new Class[1];
           cArg[0] = com.leapmotion.leap.Controller.class;
-          System.err.println("Have cArg[0]");
+          // System.err.println("Have cArg[0]");
 
           Method onFrameCallback = this.owner.getClass().getMethod( "onFrame", cArg );
-          System.err.println("Have onFrameCallback " + onFrameCallback.toString());
+          // System.err.println("Have onFrameCallback " + onFrameCallback.toString());
 
 
     //    }
 
-        System.err.println("Try to invoke the onFrameCallback ... ");
+         //System.err.println("Try to invoke the onFrameCallback ... ");
         onFrameCallback.invoke(this.owner, controller);
 
       } catch (Exception e) {
