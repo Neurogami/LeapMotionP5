@@ -215,6 +215,55 @@ All of this info is available from the current frame (and frame history) as foun
 Or, if you prefer, you get that in `draw()`.  But parcelling out discrete event detection does not seem to make anything easier.  Your main logic method (either in or called from `draw` or `onFrame`) will just need to fetch the results acquired in your event callbacks. You don't get any less code, but more indirection.
 
 
+### Notes on Gestures and state-tracking in general ###
+
+
+The Leap picks up a Lot of data.  And it works fast.   This means that if in `onFrame` you check for some condition, and it is true (e.g. a circle gesture made with two fingers exposed) then it will likley be true in the next `onFrame`. And the next.  
+
+If you are using certain events as command switches then you have to watch that you do not react to any ginve state condition more than you intend.  (In constrast, if you want to inform some other program using OSC that a hand is at location x,y,z with N fingers, then you can simply trasmit that data via OSC on every pass of `onFrame`.  You are not reacting some specific condition, but simply reporting the conditions at each moment in time.)
+
+One way to handle this is to introduce a delay before again reacting to a state condition.
+
+Each call to `onFrame` makes available the current `frame` instance; this is what holds all the data for what the Leap has detected at that precise moment in time.  This data include a time-stamp. 
+
+Suppose you want to change the screen background when the use makes a circle gesture of at least 3/4 of a full circle?
+
+Your code can be set to only respond to circle gestures that meet this requirement.
+
+Then, in `onFrame`, you can check if any gestures have been detected, and what types.
+
+If you find a circle gesture you can then grab the frame time-stamp compare it to  a previous time-stamp to see if sufficient time has elapsed since any previous gesture was detected.  
+
+Define some properties for your Listener class
+
+    long lastActionTimestamp = 0;
+    long lastActionDelta = 2000;
+    com.leapmotion.leap.Gesture.Type gestType;
+
+
+
+Then, in `onFrame`
+
+
+    for(int n=0; n < frame.gestures().count(); n++) {
+      gestType = frame.gestures().get(n).type();
+      if (frame.gestures().get(n).state() == com.leapmotion.leap.Gesture.State.STATE_STOP ) {
+        if (gestType  == com.leapmotion.leap.Gesture.Type.TYPE_CIRCLE ) {
+          if  ( frame.timestamp() -  lastActionTimestamp  > lastActionDelta ) {
+            // do something in response to this gesture and the update the lastActionTimestamp  value
+            lastActionTimestamp = frame.timestamp();
+          }
+        }
+      }
+    }
+
+
+
+The frame time-stamp is given in milliseconds, so in this example the code is forcing a delay of two seconds before reaction to the target gesture.
+
+You have to decide what delay (if any) works best, and it is likely you will want different delays for different conditions.
+
+
 
 ## Event loops in Processing ##
 
