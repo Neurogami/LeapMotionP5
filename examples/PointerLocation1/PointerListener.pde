@@ -1,8 +1,8 @@
 
 
-class NgListener extends Listener {
+class PointerListener extends Listener {
 
-  Vector avgPos;
+  private Vector avgPos;
 
   //------------------------------------------------------------
   void onInit(Controller controller) {
@@ -13,6 +13,17 @@ class NgListener extends Listener {
   //------------------------------------------------------------
   void onConnect(Controller controller) {
     println("Connected");
+  }
+
+
+  //------------------------------------------------------------
+  void onFocusGained(Controller controller) {
+    println(" Focus gained");
+  }
+
+  //------------------------------------------------------------
+  void onFocusLost(Controller controller) {
+    println("Focus lost");
   }
 
   //------------------------------------------------------------
@@ -30,9 +41,9 @@ class NgListener extends Listener {
       println("Hand!");
       Hand hand = hands.get(0);
       FingerList fingers = hand.fingers();
-      if (fingers.count() >= 1) {
+      if (fingers.count() > 0) {
         println("Fingers!");
-          avgPos = Vector.zero();
+        avgPos = Vector.zero();
         for (Finger finger : fingers) {
           avgPos  = avgPos.plus(finger.tipPosition());
         }
@@ -42,13 +53,12 @@ class NgListener extends Listener {
 
       } // if fingers
     } //  if hands 
-
   } 
 
 
   //------------------------------------------------------------
-  Vector lastPos(){
-    return(avgPos);
+  Vector avgPos(){
+    return new Vector(avgPos);
   }
 } 
 

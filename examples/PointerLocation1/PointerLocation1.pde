@@ -3,44 +3,46 @@ import com.neurogami.leaphacking.*;
 
 /*
 
-v13
+   v13
 
-This example takes an average of all detected pointables and uses that 
-as the point to render on the screen.  
+   This example takes an average of all detected pointables and uses that 
+   as the point to render on the screen.  
 
-It shows the point coordinate values at the  x,y location
+   It shows the point coordinate values at the  x,y location
 
-Z value is rendered by chaging the darkness of the font color; they further 
-away the lighter it gets.
+   Z value is rendered by chaging the darkness of the font color; they further 
+   away the lighter it gets.
 
 
 
-*/
+ */
 
-NgListener listener = new NgListener();
-Controller controller;
+PointerListener listener   = new PointerListener();
+Controller      controller = new Controller(listener);
+
 
 float yMax, xMax;
 float yMin, xMin;
+int topX = 150;
+int topY = 300;
 
-LeapMotionP5 leap;
+// LeapMotionP5 leap;
 
 void setup() {
   // This makes it full-screen
   size(displayWidth, displayHeight, OPENGL);
 
-  yMax = xMax =  -100;
-  yMin = xMin =  1300;
-// Is this even needed?
- // leap = new LeapMotionP5(this);
- //
-//   listener.setOwner(this);
+  yMax = xMax =  0;
+  yMin = xMin =  0;
+  // Is this even needed?
+  // leap = new LeapMotionP5(this);
+  //
+  //   listener.setOwner(this);
   //controller = leap.createController(listener);
-// There are two ways to get a controller instance; not usre
-// usng a helper metod buy you anything since you can just do it
-// yourself
+  // There are two ways to get a controller instance; not usre
+  // usng a helper metod buy you anything since you can just do it
+  // yourself
 
-controller = new Controller(listener);
 
 }
 
@@ -53,11 +55,12 @@ void draw() {
 
 
 //-------------------------------------------------------------------
-Vector lastPos() {
-  Vector  lp = listener.lastPos();
+Vector avgPos() {
+  Vector lp = listener.avgPos();
+//  Vector lp = listener.avgPos;
 
-// Although the point-rendering is restricted to the size of the screen,
-// it's interesting to see the range values detected.
+  // Although the point-rendering is restricted to the size of the screen,
+  // it's interesting to see the range values detected.
   if (lp.getX() < xMin ){ xMin = lp.getX(); }
   if (lp.getY() < yMin ){ yMin = lp.getY(); }
 
@@ -108,17 +111,13 @@ Vector lastPos() {
 
  */
 int mapXforScreen(float xx) {
-  int topX = 150;
-  int x  = constrain( int(xx), topX * -1, topX);
+  int x = constrain( int(xx), topX * -1, topX);
   return( int( map(x, topX * -1, topX, 0, width) ) );
 }
 
 //-------------------------------------------------------------------
 int mapYforScreen(float yy) {
-
-  int topY = 300;
   int y  = constrain( int(yy), 0, topY);
-
   return( int( map(y, 0, topY,  height, 0) ) );
 }
 
@@ -127,7 +126,7 @@ int mapYforScreen(float yy) {
 int zToColorInt(float fz) {
 
   int z = int(fz);
-   
+
   int minZ = -220;
   int maxZ = 200;
 
@@ -144,18 +143,18 @@ int zToColorInt(float fz) {
 
 void writePosition(){
 
-  int zMap = zToColorInt(lastPos().getZ());
-  int baseY = mapYforScreen( lastPos().getY() );
+  int zMap = zToColorInt(avgPos().getZ());
+  int baseY = mapYforScreen( avgPos().getY() );
   int inc = 30;
-  int xLoc = mapXforScreen(lastPos().getX()); 
+  int xLoc = mapXforScreen(avgPos().getX()); 
 
   textSize(32);
   fill(zMap, zMap, zMap);
 
-  println("lastPos() X : " + lastPos() );
-  text("X: " + lastPos().getX() , xLoc, baseY);
-  text("Y: "  + lastPos().getY(), xLoc, baseY + inc*2 );
-  text("Z: "  + lastPos().getZ(), xLoc, baseY + inc*3 );
+  println("avgPos() X : " + avgPos() );
+  text("X: " + avgPos().getX() , xLoc, baseY);
+  text("Y: "  + avgPos().getY(), xLoc, baseY + inc*2 );
+  text("Z: "  + avgPos().getZ(), xLoc, baseY + inc*3 );
 
   text("min X: "  + xMin, xLoc, baseY + inc*4 );
   text("max X: "  + xMax, xLoc, baseY + inc*5 );
