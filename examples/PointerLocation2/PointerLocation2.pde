@@ -1,28 +1,24 @@
 import com.neurogami.leaphacking.*;
 
-
-
-NgListener listener = new NgListener();
-Controller controller;
+PointerListener listener = new PointerListener();
+Controller controller    = new Controller(listener);
 
 Vector avgPos;
 
-float yMax, xMax;
-float yMin, xMin;
+
+float yMax = 0;
+float xMax = 0;
+float yMin = 0;
+float xMin = 0;
+
+int topX = 150;
+int topY = 300;
+
 
 LeapMotionP5 leap;
 
 void setup() {
   size(displayWidth, displayHeight, OPENGL);
-
-  yMax = xMax =  -100;
-  yMin = xMin =  1300;
-  // Is this even needed?
-  // leap = new LeapMotionP5(this);
-  //
-
-  controller = new Controller(listener);
-
 }
 
 
@@ -113,17 +109,13 @@ Vector lastPos() {
 
  */
 int mapXforScreen(float xx) {
-  int topX = 150;
   int x  = constrain( int(xx), topX * -1, topX);
   return( int( map(x, topX * -1, topX, 0, width) ) );
 }
 
 //-------------------------------------------------------------------
 int mapYforScreen(float yy) {
-
-  int topY = 300;
   int y  = constrain( int(yy), 0, topY);
-
   return( int( map(y, 0, topY,  height, 0) ) );
 }
 

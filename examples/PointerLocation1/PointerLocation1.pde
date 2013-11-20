@@ -1,49 +1,22 @@
 import com.neurogami.leaphacking.*;
 
 
-/*
-
-   v13
-
-   This example takes an average of all detected pointables and uses that 
-   as the point to render on the screen.  
-
-   It shows the point coordinate values at the  x,y location
-
-   Z value is rendered by chaging the darkness of the font color; they further 
-   away the lighter it gets.
-
-
-
- */
-
 PointerListener listener   = new PointerListener();
 Controller      controller = new Controller(listener);
 
 
-float yMax, xMax;
-float yMin, xMin;
+float yMax = 0;
+float xMax = 0;
+float yMin = 0;
+float xMin = 0;
+
 int topX = 150;
 int topY = 300;
 
-// LeapMotionP5 leap;
 
 void setup() {
   // This makes it full-screen
   size(displayWidth, displayHeight, OPENGL);
-
-  yMax = xMax =  0;
-  yMin = xMin =  0;
-  // Is this even needed?
-  // leap = new LeapMotionP5(this);
-  //
-  //   listener.setOwner(this);
-  //controller = leap.createController(listener);
-  // There are two ways to get a controller instance; not usre
-  // usng a helper metod buy you anything since you can just do it
-  // yourself
-
-
 }
 
 
