@@ -2,9 +2,9 @@ distribution
 .project
 .classpath
 notes.md
-examples/PointerLocation/code/*.*
-examples/PointerLocation/code/x64
-examples/PointerLocation/code/x86
+examples/PointerLocation1/code/*.*
+examples/PointerLocation1/code/x64
+examples/PointerLocation1/code/x86
 
 
 examples/PointerLocation2/code/*.*
@@ -20,6 +20,11 @@ examples/PointerLocation3/code/x86
 examples/PointerLocation4/code/*.*
 examples/PointerLocation4/code/x64
 examples/PointerLocation4/code/x86
+
+examples/PointerLocation1/PointerDemoUtils.pde
+examples/PointerLocation2/PointerDemoUtils.pde
+examples/PointerLocation3/PointerDemoUtils.pde
+examples/PointerLocation4/PointerDemoUtils.pde
 
 *.log
 
