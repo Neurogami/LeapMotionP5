@@ -5,7 +5,6 @@ Controller controller    = new Controller(listener);
 
 Vector avgPos;
 
-
 float yMax = 0;
 float xMax = 0;
 float yMin = 0;
@@ -13,9 +12,6 @@ float xMin = 0;
 
 int topX = 150;
 int topY = 300;
-
-
-LeapMotionP5 leap;
 
 void setup() {
   size(displayWidth, displayHeight, OPENGL);
@@ -25,8 +21,6 @@ void setup() {
 //-------------------------------------------------------------------
 void draw() {
   background(255);
-
-
 
   if (globalHands!=null) {
     if (globalHands.count() > 0 ) {
@@ -122,19 +116,13 @@ int mapYforScreen(float yy) {
 
 //-------------------------------------------------------------------
 int zToColorInt(float fz) {
-
   int z = int(fz);
-
   int minZ = -220;
   int maxZ = 200;
 
-  if (z < minZ) {
-    return 0;
-  }
+  if (z < minZ) { return 0; }
 
-  if (z > maxZ) {
-    return 255;
-  }
+  if (z > maxZ) { return 255; }
 
   return int(map(z, minZ, maxZ,  0, 255));
 }
