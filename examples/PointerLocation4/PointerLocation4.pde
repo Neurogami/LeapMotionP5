@@ -4,6 +4,7 @@ import com.neurogami.leaphacking.*;
 LeapMotionP5 leap;
 
 
+//-------------------------------------------------------------------
 void setup() {
   size(displayWidth-30, displayHeight-30, OPENGL);
 
@@ -17,10 +18,20 @@ void setup() {
   
 }
 
+//-------------------------------------------------------------------
+void draw() {
+  background(255);
+  writePosition();
+}
+
+
+//-------------------------------------------------------------------
 void onFrame(com.leapmotion.leap.Controller controller) {
   processData(controller);
 }
 
+
+//-------------------------------------------------------------------
 void processData(com.leapmotion.leap.Controller controller) {
 
   Frame frame = controller.frame();
@@ -55,9 +66,25 @@ void processData(com.leapmotion.leap.Controller controller) {
   }
 
 }
+
+
 //-------------------------------------------------------------------
-void draw() {
-  background(255);
-  writePosition();
+Vector lastPos() {
+  Vector lp = new Vector(avgPos);
+
+
+  // Although the point-rendering is restricted to the size of the screen,
+  // it's interesting to see the range values detected.
+  if (lp.getX() < xMin ){ xMin = lp.getX(); }
+  if (lp.getY() < yMin ){ yMin = lp.getY(); }
+
+  if (lp.getX() > xMax ){  xMax = lp.getX(); }
+  if (lp.getY() > yMax ){  yMax = lp.getY(); }
+
+  println(lp);
+
+  return lp;
 }
+
+
 

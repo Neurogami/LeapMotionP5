@@ -8,6 +8,14 @@ Later, `LeapMotionP5` was updated to allow other ways of accessing the Leap Moti
 
 This, a subsequent articles, is meant to help explain how to the use the `LeapMotionP5` library by way of some examples.  In particular, there is a simple example that takes the average of finger-top positions and renders that data on a corresponding screen location.  This basic premises is presented in multiple ways to show the different ways you can use the `LeapMotionP5` library.
 
+
+### Running the example code ###
+
+There are multiple versions of the basic `Pointer Location` demo, and while each shows different ways of interacting with the `LeapMotionP5` library there is some amount of common code.
+
+Processing sketches expect to find all required code files within the sketch folder.  Rather than have to maintain the same code across multiple examples there is a file, `PointerDemoUtils.pde`, in the root of the `examples` folder, that has the common code.  You need to copy that file into each of the `Pointer Location` folders before running any of them.
+
+
 ## Version 1: The raw SDK approach ##
 
 If you look at the [Leap Motion SDK docs for the Java library](https://developer.leapmotion.com/documentation/Languages/Java/Guides/Leap_Overview.html) you'll see a simple example and an explanation of how to write Leap Motion programs using Java.  
