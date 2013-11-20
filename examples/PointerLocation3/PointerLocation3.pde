@@ -1,7 +1,5 @@
 import com.neurogami.leaphacking.*;
 
-
-
 LeapMotionP5 leap;
 
 void setup() {
