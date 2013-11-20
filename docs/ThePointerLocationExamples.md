@@ -1,20 +1,22 @@
 # The Pointer Location Examples #
 
-The `LeapMotionP5` library started off as a simple wrapper for the Leap Motion Java library.
+The [`LeapMotionP5`](https://github.com/Neurogami/LeapMotionP5) library started off as a simple wrapper for the Leap Motion Java library that is part of the [Leap Motion software developer kit (SDK)](https://developer.leapmotion.com/getting_started).
 
 It worked, and worked well.  The first version of the `Pointer Location` example was written to use that early version.
 
 Later, `LeapMotionP5` was updated to allow other ways of accessing the Leap Motion data.  As the library evolved new versions of the `Pointer Location` were created to show usage.
 
+This, a subsequent articles, is meant to help explain how to the use the `LeapMotionP5` library by way of some examples.  In particular, there is a simple example that takes the average of finger-top positions and renders that data on a corresponding screen location.  This basic premises is presented in multiple ways to show the different ways you can use the `LeapMotionP5` library.
+
 ## Version 1: The raw SDK approach ##
 
-If you look at the Leap Motion SDK docs for the Java library you'll see a simple example and an explanation of how to write Leap Motion programs using Java.  
+If you look at the [Leap Motion SDK docs for the Java library](https://developer.leapmotion.com/documentation/Languages/Java/Guides/Leap_Overview.html) you'll see a simple example and an explanation of how to write Leap Motion programs using Java.  
 
-Basically, you use an instance of a `Controller` class to handle the connection between your program and the Leap device, and a `Listener` object that handles events dispatched by the Leap.
+Basically, you use an instance of a `Controller` class to handle the connection between your program and the Leap device, and a `Listener` object that handles events (e.g. "Here's some hand and finger data!") dispatched by the Leap.
 
 The two are intertwingled:  You first create a `Listener` thing and pass that to the creation of your `Controller` thing; your `Listener` must have a method named `onFrame` that is called every time the Leap has new data, and when that method gets called the `Controller` is passed in.
 
-The `Controller` class is the one provided by the Leap SDK.  Your `Listener` class, however, needs to be written by you.  This turns out to be pretty simple.  
+The `Controller` class is the one provided by the Leap SDK.  Your `Listener` class, however, needs to be written by you (although it will be based on the  `Listener` class alos provided by the Leap SDK).  This turns out to be pretty simple.  
 
 The reason you need to provide your own `Listener` class is because it is there that all the fun stuff happens.  You need to decide what should happen inside `onFrame` with the Leap data.
 
@@ -146,6 +148,8 @@ The second point to be made is use of an additional class to manage the Leap dat
 This is perhaps exactly what many P5 fans would expect.  Which is fine, but still not what I would advocate (though I do show *exactly* that in an example, for educational purposes only).  
 
 I am more of a fan of trying to keep things reasonably decoupled.  I use the weasel-word "reasonably" to avoid getting sidetracked.  The basic idea is this: My sketch may work best with a Leap Motion, but it may also be quite usable with a mouse.  Or a Wii remote. Or several things.  My my main body of code (e.g. `draw`) should not have to be so intimately aware of how `avgPos` is determined.  It only needs to be able to grab it an use it.  So, even when you have the option of direct access to controller (broadly speak, not just Leap Motion) data in your main code you should consider abstracting that a bit so that you can still develop, test, and use you sketch even when attaching and using an actual Leap device isn't practical.
+
+
 
 
 
