@@ -6,21 +6,22 @@ import com.neurogami.leaphacking.*;
 
 Vector avgPos;
 
-float yMax, xMax;
-float yMin, xMin;
+float yMax = 0;
+float xMax = 0;
+float yMin = 0;
+float xMin = 0;
+int   minZ = -220;
+int   maxZ = 200;
+
+
+int topX = 150;
+int topY = 300;
 
 LeapMotionP5 leap;
 
 void setup() {
   size(displayWidth-30, displayHeight-30, OPENGL);
-
-  yMax = xMax =  -100;
-  yMin = xMin =  1300;
-  // Is this even needed?
   leap = new LeapMotionP5(this);
-  
-  // controller = new Controller(listener);
-
 }
 
 
@@ -112,17 +113,13 @@ Vector lastPos() {
 
  */
 int mapXforScreen(float xx) {
-  int topX = 150;
   int x  = constrain( int(xx), topX * -1, topX);
   return( int( map(x, topX * -1, topX, 0, width) ) );
 }
 
 //-------------------------------------------------------------------
 int mapYforScreen(float yy) {
-
-  int topY = 300;
   int y  = constrain( int(yy), 0, topY);
-
   return( int( map(y, 0, topY,  height, 0) ) );
 }
 
@@ -132,16 +129,10 @@ int zToColorInt(float fz) {
 
   int z = int(fz);
 
-  int minZ = -220;
-  int maxZ = 200;
+ 
+  if (z < minZ) { return 0; }
 
-  if (z < minZ) {
-    return 0;
-  }
-
-  if (z > maxZ) {
-    return 255;
-  }
+  if (z > maxZ) { return 255; }
 
   return int(map(z, minZ, maxZ,  0, 255));
 }
