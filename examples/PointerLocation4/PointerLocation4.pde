@@ -56,11 +56,8 @@ void processData(com.leapmotion.leap.Controller controller) {
 
         avgPos = avgPos.divide(fingers.count());
         println("avgPos x: " + avgPos.getX() );
-
-        //       writePosition();
         redraw();
       } // if fingers
-
     } //  if hands 
 
   }

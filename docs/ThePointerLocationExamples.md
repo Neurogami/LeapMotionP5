@@ -15,6 +15,14 @@ There are multiple versions of the basic `Pointer Location` demo, and while each
 
 Processing sketches expect to find all required code files within the sketch folder.  Rather than have to maintain the same code across multiple examples there is a file, `PointerDemoUtils.pde`, in the root of the `examples` folder, that has the common code.  You need to copy that file into each of the `Pointer Location` folders before running any of them.
 
+Once that is done you can just load any of the examples in the Processing IDE or run them from command line.
+
+
+#### Yet another note about running the example code ####
+
+`LeapMotionP5` requires you to have the Leap SDK libraries in the `code` folder of your sketch.  Rather than include these files with each sketch it is left to the user to get them from the Leap Motion.  These files may be available as part of the source distribution for `LeapMotionP5`, in which case you can just copy those to whatever sketch needs them.   However, you may be better off making sure you have the latest libraries from Leap Motion.  If `LeapMotionP5` fails to work with the most current Leap Motion libraries then there is a bug in `LeapMotionP5` that should be fixed.
+
+The intent is to make sure that `LeapMotionP5` is kept up-to-date with the Leap Motion SDK.
 
 ## Version 1: The raw SDK approach ##
 
