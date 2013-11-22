@@ -5,18 +5,18 @@ class PointerListener extends Listener {
 
   //------------------------------------------------------------
   void onInit(Controller controller) {
-    println("Initialized");
+    d("Initialized");
     avgPos = Vector.zero();
   }
 
   //------------------------------------------------------------
   void onConnect(Controller controller) {
-    println("Connected");
+    d("Connected");
   }
 
   //------------------------------------------------------------
   void onDisconnect(Controller controller) {
-    println("Disconnected");
+    d("Disconnected");
   }
 
   //------------------------------------------------------------

@@ -11,6 +11,13 @@ int   topX = 150;
 int   topY = 300;
 
 
+boolean DEBUG = false;
+
+void d(String msg) {
+  if (DEBUG) {
+    println(msg);
+  }
+}
 
 //-------------------------------------------------------------------
 /* The trick to guestimate the upper and lower bounds for the X value
@@ -79,7 +86,7 @@ void writePosition(){
   textSize(32);
   fill(zMap, zMap, zMap);
 
-  println("lastPos() X : " + lastPos() );
+  d("lastPos() X : " + lastPos() );
   text("X: " + lastPos().getX() , xLoc, baseY);
   text("Y: "  + lastPos().getY(), xLoc, baseY + inc*2 );
   text("Z: "  + lastPos().getZ(), xLoc, baseY + inc*3 );

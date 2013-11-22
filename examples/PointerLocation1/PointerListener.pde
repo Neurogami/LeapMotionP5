@@ -6,29 +6,29 @@ class PointerListener extends Listener {
 
   //------------------------------------------------------------
   void onInit(Controller controller) {
-    println("Initialized");
+    d("Initialized");
     avgPos = Vector.zero();
   }
 
   //------------------------------------------------------------
   void onConnect(Controller controller) {
-    println("Connected");
+    d("Connected");
   }
 
 
   //------------------------------------------------------------
   void onFocusGained(Controller controller) {
-    println(" Focus gained");
+    d(" Focus gained");
   }
 
   //------------------------------------------------------------
   void onFocusLost(Controller controller) {
-    println("Focus lost");
+    d("Focus lost");
   }
 
   //------------------------------------------------------------
   void onDisconnect(Controller controller) {
-    println("Disconnected");
+    d("Disconnected");
   }
 
   //------------------------------------------------------------
@@ -38,18 +38,18 @@ class PointerListener extends Listener {
     HandList hands = frame.hands();
 
     if (hands.count() > 0 ) {
-      println("Hand!");
+      d("Hand!");
       Hand hand = hands.get(0);
       FingerList fingers = hand.fingers();
       if (fingers.count() > 0) {
-        println("Fingers!");
+        d("Fingers!");
         avgPos = Vector.zero();
         for (Finger finger : fingers) {
           avgPos  = avgPos.plus(finger.tipPosition());
         }
 
         avgPos = avgPos.divide(fingers.count());
-        println("avgPos x: " + avgPos.getX() );
+        d("avgPos x: " + avgPos.getX() );
 
       } // if fingers
     } //  if hands 

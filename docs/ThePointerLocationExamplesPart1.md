@@ -1,4 +1,5 @@
-# The Pointer Location Examples #
+# The Pointer Location Examples, Part 1 #
+
 
 The [`LeapMotionP5`](https://github.com/Neurogami/LeapMotionP5) library started off as a simple wrapper for the Leap Motion Java library that is part of the [Leap Motion software developer kit (SDK)](https://developer.leapmotion.com/getting_started).
 
@@ -20,7 +21,7 @@ Once that is done you can just load any of the examples in the Processing IDE or
 
 #### Yet another note about running the example code ####
 
-`LeapMotionP5` requires you to have the Leap SDK libraries in the `code` folder of your sketch.  Rather than include these files with each sketch it is left to the user to get them from the Leap Motion.  These files may be available as part of the source distribution for `LeapMotionP5`, in which case you can just copy those to whatever sketch needs them.   However, you may be better off making sure you have the latest libraries from Leap Motion.  If `LeapMotionP5` fails to work with the most current Leap Motion libraries then there is a bug in `LeapMotionP5` that should be fixed.
+`LeapMotionP5` requires you to have the Leap SDK libraries in the `code` folder of your sketch.  Rather than include these files with each sketch it is left to the user to get them from the Leap Motion SDK distribution.  These files may be available as part of the source distribution for `LeapMotionP5`, in which case you can just copy those to whatever sketch needs them.   However, you may be better off making sure you have the latest libraries from Leap Motion.  If `LeapMotionP5` fails to work with the most current Leap Motion libraries then there is a bug in `LeapMotionP5` that should be fixed.
 
 The intent is to make sure that `LeapMotionP5` is kept up-to-date with the Leap Motion SDK.
 

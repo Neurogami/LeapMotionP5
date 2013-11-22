@@ -17,13 +17,13 @@ void draw() {
   if (leap.hands() != null) {
     if (leap.hands().count() > 0 ) {
 
-      println("\tDraw: Have leap.hands().count() = " + leap.hands().count() );
-      println("****************** Hand ****************************");
+      d("\tDraw: Have leap.hands().count() = " + leap.hands().count() );
+      d("****************** Hand ****************************");
       Hand hand = leap.hands().get(0);
 
       FingerList fingers = hand.fingers();
       if (fingers.count() >= 1) {
-        println(" ******** Fingers " + fingers.count() + " ****** ");
+        d(" ******** Fingers " + fingers.count() + " ****** ");
       
         avgPos = Vector.zero();
         
@@ -32,7 +32,7 @@ void draw() {
         }
 
         avgPos = avgPos.divide(fingers.count());
-        println("avgPos x: " + avgPos.getX() );
+        d("avgPos x: " + avgPos.getX() );
        writePosition();
       } // if fingers
     
@@ -55,7 +55,7 @@ Vector lastPos() {
   if (lp.getX() > xMax ){  xMax = lp.getX(); }
   if (lp.getY() > yMax ){  yMax = lp.getY(); }
 
-  println(lp);
+  d(lp.toString());
 
   return lp;
 }
