@@ -35,7 +35,22 @@
 package com.neurogami.leaphacking;
 
 
-import com.leapmotion.leap.*;
+// import com.leapmotion.leap.*;
+
+import com.leapmotion.leap.Config;
+import com.leapmotion.leap.Controller;
+import com.leapmotion.leap.Finger;
+import com.leapmotion.leap.Frame;
+import com.leapmotion.leap.Gesture.Type;
+import com.leapmotion.leap.Hand;
+import com.leapmotion.leap.HandList;
+import com.leapmotion.leap.Listener;
+import com.leapmotion.leap.Pointable;
+import com.leapmotion.leap.ScreenList;
+import com.leapmotion.leap.Tool;
+import com.leapmotion.leap.Vector;
+
+
 import processing.core.*; 
 
 public class LeapMotionP5 {

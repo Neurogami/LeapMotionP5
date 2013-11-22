@@ -1,7 +1,7 @@
 import com.neurogami.leaphacking.*;
 
 PointerListener listener   = new PointerListener();
-Controller      controller = new Controller(listener);
+com.leapmotion.leap.Controller      controller = new com.leapmotion.leap.Controller(listener);
 
 //-------------------------------------------------------------------
 void setup() {
@@ -15,8 +15,8 @@ void draw() {
 }
 
 //-------------------------------------------------------------------
-Vector lastPos() {
-  Vector lp = listener.avgPos();
+com.leapmotion.leap.Vector lastPos() {
+  com.leapmotion.leap.Vector lp = listener.avgPos();
 
   if (lp.getX() < xMin ){ xMin = lp.getX(); }
   if (lp.getY() < yMin ){ yMin = lp.getY(); }

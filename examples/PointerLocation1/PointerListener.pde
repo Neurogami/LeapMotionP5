@@ -1,4 +1,4 @@
-
+import com.leapmotion.leap.*;
 
 class PointerListener extends Listener {
 
@@ -57,8 +57,8 @@ class PointerListener extends Listener {
 
 
   //------------------------------------------------------------
-  Vector avgPos(){
-    return new Vector(avgPos);
+  com.leapmotion.leap.Vector avgPos(){
+    return new com.leapmotion.leap.Vector(avgPos);
   }
 } 
 

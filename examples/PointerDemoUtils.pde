@@ -1,4 +1,4 @@
-Vector avgPos = Vector.zero();
+com.leapmotion.leap.Vector avgPos = com.leapmotion.leap.Vector.zero();
 
 
 float yMax = 0;
