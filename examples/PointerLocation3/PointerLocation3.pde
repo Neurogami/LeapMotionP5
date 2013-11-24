@@ -1,5 +1,7 @@
 import com.neurogami.leaphacking.*;
 
+import com.leapmotion.leap.*;
+
 LeapMotionP5 leap;
 
 // Vector avgPos  = Vector.zero();

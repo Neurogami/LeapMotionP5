@@ -19,43 +19,7 @@ void d(String msg) {
   }
 }
 
-//-------------------------------------------------------------------
-/* The trick to guestimate the upper and lower bounds for the X value
-   so as to map it to the width of the screen while not losing the finger at the edges.
 
-   One question is, do you get different values of X depending on your Y and Z?  
-
-   For example:  Given this are marked out above the Leap
-
-
-   -----------------------
-   |                     |
-   |                     |
-   |                     |
-   |                     |
-   -----------------------
-   [leap]
-
-   Is the X value stable as you move your finger up either the left or right side?
-
-
-   The Leap can sense greater values of X the further up you are.  But it seems to return
-   the same X value as you directly normal to the front.
-
-   If you are about 7 inches or so away you can get a range pf -200 to +200
-
-   Y seems to range from 0 to about 400, after which things get flakey.
-
-   The trick is to find an X/Y range that works OK, and then somehow corral outliers into
-   that range.  Using `constrain` seems to make it sort of jumpy.
-
-   Perhaps we could assign keys for setting the "view" range, where you hit l, r, t, and b
-   for left, right, top, bottom and the current X or Y value is then assigned to the contrain
-   and amp range.  These values can then be saved and reloaded.  This way you can set a smaller view and
-   have `map` make the adjustments.
-
-
- */
 int mapXforScreen(float xx) {
   int x  = constrain( int(xx), topX * -1, topX);
   return( int( map(x, topX * -1, topX, 0, width) ) );

@@ -1,3 +1,5 @@
+import com.leapmotion.leap.*;
+
 HandList globalHands;
 
 class PointerListener extends Listener {
