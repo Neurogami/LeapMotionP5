@@ -1,4 +1,3 @@
-import com.leapmotion.leap.*;
 
 class PointerListener extends Listener {
 
@@ -6,6 +5,7 @@ class PointerListener extends Listener {
 
   //------------------------------------------------------------
   void onInit(Controller controller) {
+    // `d` is a helper method for printing debug stuff.
     d("Initialized");
     avgPos = Vector.zero();
   }

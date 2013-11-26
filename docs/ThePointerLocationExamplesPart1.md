@@ -9,6 +9,10 @@ Later, `LeapMotionP5` was updated to allow other ways of accessing the Leap Moti
 
 This, a subsequent articles, is meant to help explain how to the use the `LeapMotionP5` library by way of some examples.  In particular, there is a simple example that takes the average of finger-top positions and renders that data on a corresponding screen location.  This basic premises is presented in multiple ways to show the different ways you can use the `LeapMotionP5` library.
 
+## A note about library development ##
+
+I try as best I can to build code based on tangible use cases.  I mostly go by my own needs and experience, but do try to consider how others may use my code and what they might expect.  The `LeapMotionP5` library has undergone a number ofchanges since first made public.  There are likely to be more changes over time, though hopefully nothing that wreaks havoc with existing sketches. 
+
 
 ### Running the example code ###
 
@@ -18,12 +22,6 @@ Processing sketches expect to find all required code files within the sketch fol
 
 Once that is done you can just load any of the examples in the Processing IDE or run them from command line.
 
-
-#### Yet another note about running the example code ####
-
-`LeapMotionP5` requires you to have the Leap SDK libraries in the `code` folder of your sketch.  Rather than include these files with each sketch it is left to the user to get them from the Leap Motion SDK distribution.  These files may be available as part of the source distribution for `LeapMotionP5`, in which case you can just copy those to whatever sketch needs them.   However, you may be better off making sure you have the latest libraries from Leap Motion.  If `LeapMotionP5` fails to work with the most current Leap Motion libraries then there is a bug in `LeapMotionP5` that should be fixed.
-
-The intent is to make sure that `LeapMotionP5` is kept up-to-date with the Leap Motion SDK.
 
 ## Version 1: The raw SDK approach ##
 
@@ -101,10 +99,10 @@ But there still remains the rendering part.  In `PointerLocation1.pde`, the code
 At the start of the sketch the code declares a `Controller` and a `Listener`:
 
     import com.neurogami.leaphacking.*;
+    import com.leapmotion.leap.*;
 
     PointerListener listener   = new PointerListener();
     Controller      controller = new Controller(listener);
-
 
 That's all the Leap set-up needed to use your `Listener` code.   Note that this is a really simple demo; for example, it makes no use of Gestures.  Later sample sketches show more.
 
@@ -138,7 +136,6 @@ That leaves this:
     }
 
 
-
 ## Wrapping up, and some observations ##
 
 This is just one of a few different versions of this simple example. Assorted things have been glossed over; more will be covered in write-up for the other versions.
@@ -148,7 +145,6 @@ First, some comments about this approach to using the Leap Motion SDK in a Proce
 The counter to this is that many, perhaps most, people using Processing are not recovering Java programmers.  They do not want to think in terms of Java to do something in Processing.  Valid point, and this is why `LeapMotionP5` offers other, perhaps more 'Processing native", options.
 
 The second point to be made is use of an additional class to manage the Leap data.  To jump ahead a bit, `LeapMotionP5` will also let you do this:
-
 
     void draw() {
       
