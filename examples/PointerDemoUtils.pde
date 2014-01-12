@@ -23,12 +23,12 @@ void d(String msg) {
 int mapXforScreen(float xx) {
   // We get a value from 0 to 1 that maps from 0 to width
 //  int x  = constrain( int(xx), topX * -1, topX);
-  return( int( map(xx, 0 , 1, 0, width) ) );
+  return( int( map(xx, 0.0, 1.0, 0.0, width) ) );
 }
 
 //-------------------------------------------------------------------
 int mapYforScreen(float yy) {
-  return( int( map(yy, 0, 1,  height, 0) ) );
+  return( int( map(yy, 0.0, 1.0,  height, 0) ) );
 }
 
 
