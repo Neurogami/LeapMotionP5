@@ -2,6 +2,7 @@
 class PointerListener extends Listener {
 
   private Vector avgPos;
+  private Vector normalizedAvgPos;
 
   //------------------------------------------------------------
   void onInit(Controller controller) {
@@ -35,6 +36,15 @@ class PointerListener extends Listener {
   void onFrame(Controller controller) {
 
     Frame frame = controller.frame();
+
+    //-------------------
+
+    InteractionBox box = frame.interactionBox();
+
+
+    //---------------
+
+
     HandList hands = frame.hands();
 
     if (hands.count() > 0 ) {
@@ -50,6 +60,7 @@ class PointerListener extends Listener {
 
         avgPos = avgPos.divide(fingers.count());
         d("avgPos x: " + avgPos.getX() );
+        normalizedAvgPos = box.normalizePoint(avgPos, true);
 
       } // if fingers
     } //  if hands 
@@ -59,6 +70,12 @@ class PointerListener extends Listener {
   //------------------------------------------------------------
   com.leapmotion.leap.Vector avgPos(){
     return new com.leapmotion.leap.Vector(avgPos);
+  }
+
+
+  //------------------------------------------------------------
+  com.leapmotion.leap.Vector normalizedAvgPos(){
+    return new com.leapmotion.leap.Vector(normalizedAvgPos);
   }
 } 
 
