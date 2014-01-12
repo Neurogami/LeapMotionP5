@@ -9,6 +9,7 @@ class PointerListener extends Listener {
     // `d` is a helper method for printing debug stuff.
     d("Initialized");
     avgPos = Vector.zero();
+    normalizedAvgPos = Vector.zero();
   }
 
   //------------------------------------------------------------
@@ -36,15 +37,7 @@ class PointerListener extends Listener {
   void onFrame(Controller controller) {
 
     Frame frame = controller.frame();
-
-    //-------------------
-
     InteractionBox box = frame.interactionBox();
-
-
-    //---------------
-
-
     HandList hands = frame.hands();
 
     if (hands.count() > 0 ) {

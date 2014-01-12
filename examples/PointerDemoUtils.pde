@@ -4,11 +4,11 @@ com.leapmotion.leap.Vector avgPos = com.leapmotion.leap.Vector.zero();
 float yMax = 0;
 float xMax = 0;
 float yMin = 0;
-float xMin = 0;
-int   minZ = -220;
-int   maxZ = 200;
-int   topX = 150;
-int   topY = 300;
+float xMin = 0; 
+int   minZ = 0;
+int   maxZ = 1;
+int   topX = 1;
+int   topY = 1;
 
 
 boolean DEBUG = false;
@@ -21,27 +21,29 @@ void d(String msg) {
 
 
 int mapXforScreen(float xx) {
-  int x  = constrain( int(xx), topX * -1, topX);
-  return( int( map(x, topX * -1, topX, 0, width) ) );
+  // We get a value from 0 to 1 that maps from 0 to width
+//  int x  = constrain( int(xx), topX * -1, topX);
+  return( int( map(xx, 0 , 1, 0, width) ) );
 }
 
 //-------------------------------------------------------------------
 int mapYforScreen(float yy) {
-  int y  = constrain( int(yy), 0, topY);
-  return( int( map(y, 0, topY,  height, 0) ) );
+  return( int( map(yy, 0, 1,  height, 0) ) );
 }
 
 
 //-------------------------------------------------------------------
 int zToColorInt(float fz) {
-  int z = int(fz);
-  if (z < minZ) { return 0; }
-  if (z > maxZ) { return 255; }
-  return int(map(z, minZ, maxZ,  0, 255));
+//  int z = int(fz);
+  //println("z = " + z);
+  if (fz < minZ) { return 0; }
+  if (fz > maxZ) { return 255; }
+  return int(map(fz, minZ, maxZ,  0, 255));
 }
 
 void writePosition(){
-
+/// New: Now we are using a normalized vector so the 
+//range of values is 0.0 to 1.0.
   int zMap = zToColorInt(lastPos().getZ());
   int baseY = mapYforScreen( lastPos().getY() );
   int inc = 30;
