@@ -7,6 +7,7 @@ LeapMotionP5 leap;
 void setup() {
   size(displayWidth-30, displayHeight-30, OPENGL);
   leap = new LeapMotionP5(this);
+  DEBUG = true;
 }
 
 
@@ -34,7 +35,8 @@ void draw() {
         avgPos = avgPos.divide(fingers.count());
         normalizedAvgPos = leap.frame().interactionBox().normalizePoint(avgPos, true);
 
-        d("avgPos x: " + avgPos.getX() );
+        d("avgPos  " + avgPos );
+        d("normalizedAvgPos: " + normalizedAvgPos );
        writePosition();
       } // if fingers
     } //  if hands 
@@ -45,6 +47,7 @@ void draw() {
 //-------------------------------------------------------------------
 Vector lastPos() {
   Vector lp = new Vector(avgPos);
+  Vector normlp = new Vector(normalizedAvgPos);
 
 
   // Although the point-rendering is restricted to the size of the screen,
@@ -55,9 +58,9 @@ Vector lastPos() {
   if (lp.getX() > xMax ){  xMax = lp.getX(); }
   if (lp.getY() > yMax ){  yMax = lp.getY(); }
 
-  d(lp.toString());
+  d(normlp .toString());
 
-  return lp;
+  return normlp ;
 }
 
 
