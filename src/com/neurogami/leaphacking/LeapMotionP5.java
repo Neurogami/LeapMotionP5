@@ -106,6 +106,10 @@ public class LeapMotionP5 {
     return defaultListener.hands();
   }
 
+    public Frame frame() {
+    return defaultListener.frame();
+  }
+
 
   /**
    * return the version of the library.

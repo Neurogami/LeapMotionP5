@@ -4,8 +4,6 @@ import com.leapmotion.leap.*;
 
 LeapMotionP5 leap;
 
-// Vector avgPos  = Vector.zero();
-
 void setup() {
   size(displayWidth-30, displayHeight-30, OPENGL);
   leap = new LeapMotionP5(this);
@@ -34,12 +32,12 @@ void draw() {
         }
 
         avgPos = avgPos.divide(fingers.count());
+        normalizedAvgPos = leap.frame().interactionBox().normalizePoint(avgPos, true);
+
         d("avgPos x: " + avgPos.getX() );
        writePosition();
       } // if fingers
-    
     } //  if hands 
-
   }
 }
 
