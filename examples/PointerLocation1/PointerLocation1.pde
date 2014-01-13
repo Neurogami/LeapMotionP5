@@ -16,9 +16,11 @@ void draw() {
 }
 
 //-------------------------------------------------------------------
+// Track last postion as both normalized value and as raw value, and
+// make note of the largests and smallest raw values so we can see 
+// what range we get.
 Vector lastPos() {
-  // New, with interactoin box.  Use the normalized vector instead of the raw values
-  // But we stil want to track the range of the raw values
+
   Vector normlp = listener.normalizedAvgPos();
   Vector lp = listener.avgPos();
 
