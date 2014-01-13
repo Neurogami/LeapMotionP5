@@ -1,6 +1,7 @@
 import com.leapmotion.leap.*;
 
 HandList globalHands;
+InteractionBox box;
 
 class PointerListener extends Listener {
 
@@ -9,6 +10,8 @@ class PointerListener extends Listener {
   void onInit(Controller controller) {
     d("Initialized");
     avgPos = Vector.zero();
+    normalizedAvgPos = Vector.zero();
+
   }
 
   //------------------------------------------------------------
@@ -23,7 +26,8 @@ class PointerListener extends Listener {
 
   //------------------------------------------------------------
   void onFrame(Controller controller) {
-     globalHands = controller.frame().hands();
+     globalHands  = controller.frame().hands();
+     box          = controller.frame().interactionBox();
   } 
 
 } 

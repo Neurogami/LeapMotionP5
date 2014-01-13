@@ -1,4 +1,5 @@
-com.leapmotion.leap.Vector avgPos = com.leapmotion.leap.Vector.zero();
+com.leapmotion.leap.Vector avgPos           = com.leapmotion.leap.Vector.zero();
+com.leapmotion.leap.Vector normalizedAvgPos = com.leapmotion.leap.Vector.zero();
 
 
 float yMax = 0;
@@ -50,10 +51,12 @@ void writePosition(){
   textSize(32);
   fill(zMap, zMap, zMap);
 
-  d("lastPos() X : " + lastPos() );
-  text("X: " + lastPos().getX() , xLoc, baseY);
-  text("Y: "  + lastPos().getY(), xLoc, baseY + inc*2 );
-  text("Z: "  + lastPos().getZ(), xLoc, baseY + inc*3 );
+  d("lastPos() : " + lastPos() );
+  d("normalizedAvgPos  : " + normalizedAvgPos );
+
+  text("X: " + lastPos().getX(), xLoc, baseY);
+  text("Y: " + lastPos().getY(), xLoc, baseY + inc*2 );
+  text("Z: " + lastPos().getZ(), xLoc, baseY + inc*3 );
 
   text("min X: "  + xMin, xLoc, baseY + inc*4 );
   text("max X: "  + xMax, xLoc, baseY + inc*5 );

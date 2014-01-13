@@ -1,6 +1,7 @@
 
 class PointerListener extends Listener {
 
+  // Hmm.  These are also defined in the utils file.
   private Vector avgPos;
   private Vector normalizedAvgPos;
 
