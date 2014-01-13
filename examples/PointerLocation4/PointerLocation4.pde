@@ -1,5 +1,5 @@
 import com.neurogami.leaphacking.*;
-
+import com.leapmotion.leap.*;
 
 LeapMotionP5 leap;
 
@@ -26,6 +26,7 @@ void onFrame(com.leapmotion.leap.Controller controller) {
 void processData(com.leapmotion.leap.Controller controller) {
 
   Frame frame = controller.frame();
+
   HandList hands = frame.hands();
 
   if (hands != null) {
@@ -46,6 +47,7 @@ void processData(com.leapmotion.leap.Controller controller) {
         }
 
         avgPos = avgPos.divide(fingers.count());
+        normalizedAvgPos = frame.interactionBox().normalizePoint(avgPos );
         d("avgPos x: " + avgPos.getX() );
         redraw();
       } 
@@ -55,6 +57,7 @@ void processData(com.leapmotion.leap.Controller controller) {
 
 Vector lastPos() {
   Vector lp = new Vector(avgPos);
+  Vector normlp = new Vector(normalizedAvgPos);
 
   if (lp.getX() < xMin ){ xMin = lp.getX(); }
   if (lp.getY() < yMin ){ yMin = lp.getY(); }
@@ -62,9 +65,9 @@ Vector lastPos() {
   if (lp.getX() > xMax ){  xMax = lp.getX(); }
   if (lp.getY() > yMax ){  yMax = lp.getY(); }
 
-  d(lp.toString());
+  d(normlp.toString());
 
-  return lp;
+  return normlp;
 }
 
 
