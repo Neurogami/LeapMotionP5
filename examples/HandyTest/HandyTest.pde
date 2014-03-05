@@ -43,6 +43,9 @@ import com.neurogami.leaphacking.*;
 PointerListener listener = new PointerListener();
 Controller controller    = new Controller(listener);
 
+
+boolean readyToShoot = false;
+
 //-------------------------------------------------------------------
 boolean sketchFullScreen() {
   return true;
@@ -87,6 +90,27 @@ color grabStrengthToColor(Hand h) {
   return color( (int) map(gs, 0,1, 0,255), (int) map(gs, 0,1, 255, 0), 0);
 
 }
+
+
+/*
+ 
+   Tracking a "trigger pull"
+
+ The new API can tell you when a finger is extended (or not) and can identify finger types (thumb, index, etc.)
+
+The idea is detect a sequnce of events:
+
+Index extended
+Index not extended AND pinchStrenth > SOME_VALUE
+
+So if we detect index extedned we set flag "readyToShoot"
+If indexNotExtended && readyToShoot && pinchStrength > triggerThreshHold
+  fire; readyToShoot = false
+end
+
+
+
+ */
 //-------------------------------------------------------------------
 void draw() {
   int extendedFingers = 0;
@@ -117,8 +141,25 @@ void draw() {
         for (Finger finger : fingers) {
           println("\t* finger type:\t" + finger.type() + "\t is extended? " + finger.isExtended() );
           if  (finger.isExtended() ) {
+            
+            if( finger.type().toString().equals("TYPE_INDEX") ) {
+               readyToShoot = true;
+            }
               extendedFingers++;
               avgPos  = avgPos.plus(finger.tipPosition());
+          } else  {
+            if ( finger.type().toString().equals("TYPE_INDEX") ) {
+              println(" - - - - - INDEX is not extended, readyToShoot = "+readyToShoot+";hand.grabStrength()  = " + hand.grabStrength()  );
+            if (readyToShoot && hand.grabStrength() > 0.2  ) {
+                readyToShoot = false;
+                println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                println("!!!!!!!!!!!!!!!!!!!      FIRE        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                bg = color(0,0,255);
+             }
+            }
           }
 
         }
