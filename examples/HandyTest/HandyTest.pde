@@ -69,10 +69,30 @@ Vector lastPos() {
   return normlp ;
 }
 
+color grabStrengthToColor(Hand h) {
+  // grabStrength runs from 0 to 1.
+  // The idea is to slide from yellow to red
+  // Docs say the value should range from 0 to 1 but 
+  // values >1 do appear.  
+  float gs = constrain(h.grabStrength(), 0.0, 1.0);
 
+  println("\tgrab strength:\t" + gs );
+  
+  if (gs > 1.0) {
+    // Oddness.  The previous println seems to occasionally show values > 1.0, but this 
+    // println does get get executed ...
+   println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! gs > 1.0 : " + gs + " !!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+  }
+
+  return color( (int) map(gs, 0,1, 0,255), (int) map(gs, 0,1, 255, 0), 0);
+
+}
 //-------------------------------------------------------------------
 void draw() {
-  background(255);
+  int extendedFingers = 0;
+  color bg = color(255);
+
+  background(bg);
 
   if (globalHands!=null) {
     if (globalHands.count() > 0 ) {
@@ -80,24 +100,40 @@ void draw() {
       d("\tDraw: Have globalHands.count() = " + globalHands.count() );
       d("****************** Hand ****************************");
       Hand hand = globalHands.get(0);
+      bg = grabStrengthToColor(hand);
 
       println("Is hand 0 the left hand? " + hand.isLeft() );
 
+
       FingerList fingers = hand.fingers();
+      
+      // Seems there are ALWAYS five fingers detected.
+      // But you can check if  afinger is extended.
+      // Ths actually works well for the "gun-hand pulls trigger" detection
       if (fingers.count() >= 1) {
-        d("Fingers!");
+        d("\t* " + fingers.count() + " Fingers!");
         avgPos = Vector.zero();
  
         for (Finger finger : fingers) {
-          avgPos  = avgPos.plus(finger.tipPosition());
+          println("\t* finger type:\t" + finger.type() + "\t is extended? " + finger.isExtended() );
+          if  (finger.isExtended() ) {
+              extendedFingers++;
+              avgPos  = avgPos.plus(finger.tipPosition());
+          }
+
         }
 
-        avgPos = avgPos.divide(fingers.count());
-        d("avgPos x: " + avgPos.getX() );
-        normalizedAvgPos = box.normalizePoint(avgPos, true);
+        
 
+        if (extendedFingers>0) {
+          avgPos = avgPos.divide(extendedFingers);
+          d("avgPos x: " + avgPos.getX() );
+          normalizedAvgPos = box.normalizePoint(avgPos, true);
+        }
       } // if fingers
     } //  if hands 
+    background(bg);
+
     writePosition();
   }
 }
