@@ -48,7 +48,7 @@ Controller controller    = new Controller(listener);
 
 
 OBJModel model;
-float rotX, rotY;
+float rotX, rotY, rotZ;
 
 
 com.leapmotion.leap.Vector handPos           = com.leapmotion.leap.Vector.zero();
@@ -118,14 +118,28 @@ void draw() {
   color bg = color(255);
 
   background(bg);
+  Hand hand;
+
+    shootCountdown--;
+  
+    if (shootCountdown > 0) { 
+      bg = color(0,0,255); 
+    } else { 
+      shootCountdown = 0; 
+    }
+    
 
   if (globalHands!=null) {
     if (globalHands.count() > 0 ) {
 
       d("\tDraw: Have globalHands.count() = " + globalHands.count() );
       d("****************** Hand ****************************");
-      Hand hand = globalHands.get(0);
-      bg = grabStrengthToColor(hand);
+      hand = globalHands.get(0);
+
+      if (shootCountdown < 1 ) {
+        bg = grabStrengthToColor(hand);
+        background(bg);
+      }
 
       println("Is hand 0 the left hand? " + hand.isLeft() );
 
@@ -167,19 +181,33 @@ void draw() {
           normalizedHandPos = box.normalizePoint(handPos, true);
         }
       } // if fingers
-    } //  if hands 
-    if (shootCountdown > 0) { bg = color(0,0,255); }
-    shootCountdown--;
-    if (shootCountdown < 0 ) {shootCountdown = 0; }
-    background(bg);
+      background(bg);
+      renderHand(hand);
 
-    renderHand();
+    } else { 
+      background(bg); 
+  } 
+   
+
+
   }
 
 }
 
 
-void renderHand(){
+void renderHand(Hand hand){
+
+  rotX = 0.; // 0.5 makes it ppint kinda to the left
+              // 1.0 points much to the left, but not fully sideways
+              // 2.0 has it turn left and *slightly* facing the user.
+              //  1.5 seeems to be full-sideways face-left
+  rotY = 0.0; // 1.5: Rotates away from the use and faces down.
+
+  rotZ = -1.5; // 1.5: rotates top-over-handle clockwse
+
+   if (hand.isLeft() ) {
+     rotZ = 1.5;
+   }
 
   int yLoc = mapYforScreen( lastPos().getY() );
   int xLoc = mapXforScreen(lastPos().getX());
@@ -190,8 +218,9 @@ void renderHand(){
     pushMatrix();
 
   translate(xLoc, yLoc, 0);
-//    rotateX(rotY);
-  //  rotateY(rotX);
+    rotateX(rotY);
+    rotateY(rotX);
+    rotateZ(rotZ);
 
     model.draw();
 
