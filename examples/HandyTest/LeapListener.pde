@@ -3,15 +3,14 @@ import com.leapmotion.leap.*;
 HandList globalHands;
 InteractionBox box;
 
-class PointerListener extends Listener {
+class LeapListener extends Listener {
 
 
   //------------------------------------------------------------
   void onInit(Controller controller) {
     d("Initialized");
-    avgPos = Vector.zero();
-    normalizedAvgPos = Vector.zero();
-
+    handPos = Vector.zero();
+    normalizedHandPos = Vector.zero();
   }
 
   //------------------------------------------------------------

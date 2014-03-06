@@ -1,7 +1,7 @@
-// Goal: Render info about the current hand, including left or right hand, and joint data
+// Goal: Do something that relies on new API stuff
 /*
 
-  file:///C:/Users/james/Dropbox/LeapMotion/LeapDeveloperKit_skeleton-api_win_1.3.0+12767/LeapSDK/docs/cpp/devguide/Intro_Skeleton_API.html 
+file:///C:/Users/james/Dropbox/LeapMotion/LeapDeveloperKit_skeleton-api_win_1.3.0+12767/LeapSDK/docs/cpp/devguide/Intro_Skeleton_API.html 
 
 The additions include:
 
@@ -39,12 +39,40 @@ Hand.pinchStrength
  */
 
 import com.neurogami.leaphacking.*;
+import saito.objloader.*;
 
-PointerListener listener = new PointerListener();
+
+boolean DEBUG = true;
+LeapListener listener = new LeapListener();
 Controller controller    = new Controller(listener);
 
 
+OBJModel model;
+float rotX, rotY;
+
+
+com.leapmotion.leap.Vector handPos           = com.leapmotion.leap.Vector.zero();
+com.leapmotion.leap.Vector normalizedHandPos = com.leapmotion.leap.Vector.zero();
+
+int SHOOT_COUNTDOWN_MAX = 10;
+
 boolean readyToShoot = false;
+int shootCountdown = 0;
+
+
+void d(String msg) {
+  if(DEBUG){println(msg);}
+}
+
+int mapXforScreen(float xx) {
+  return( int( map(xx, 0.0, 1.0, 0.0, width-130) ) );
+}
+
+//-------------------------------------------------------------------
+int mapYforScreen(float yy) {
+  return( int( map(yy, 0.0, 1.0,  height, 10) ) );
+}
+
 
 //-------------------------------------------------------------------
 boolean sketchFullScreen() {
@@ -54,63 +82,36 @@ boolean sketchFullScreen() {
 //-------------------------------------------------------------------
 void setup() {
   size(displayWidth, displayHeight, OPENGL);
-  DEBUG = true;
+
+  model = new OBJModel(this, "jgb-experiment.obj", "absolute", TRIANGLES);
+  model.enableDebug();
+  model.scale(40);
+  model.translateToCenter();
 }
 
 //-------------------------------------------------------------------
 Vector lastPos() {
-  Vector lp = new Vector(avgPos);
-  Vector normlp = new Vector( normalizedAvgPos);
+  Vector lp = new Vector(handPos);
+  Vector normlp = new Vector( normalizedHandPos);
 
-  if (lp.getX() < xMin ){ xMin = lp.getX(); }
-  if (lp.getY() < yMin ){ yMin = lp.getY(); }
-  if (lp.getX() > xMax ){  xMax = lp.getX(); }
-  if (lp.getY() > yMax ){  yMax = lp.getY(); }
 
   d(normlp.toString());
 
   return normlp ;
 }
 
+//-------------------------------------------------------------------
 color grabStrengthToColor(Hand h) {
   // grabStrength runs from 0 to 1.
   // The idea is to slide from yellow to red
   // Docs say the value should range from 0 to 1 but 
   // values >1 do appear.  
   float gs = constrain(h.grabStrength(), 0.0, 1.0);
-
   println("\tgrab strength:\t" + gs );
-  
-  if (gs > 1.0) {
-    // Oddness.  The previous println seems to occasionally show values > 1.0, but this 
-    // println does get get executed ...
-   println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! gs > 1.0 : " + gs + " !!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-  }
-
   return color( (int) map(gs, 0,1, 0,255), (int) map(gs, 0,1, 255, 0), 0);
-
 }
 
 
-/*
- 
-   Tracking a "trigger pull"
-
- The new API can tell you when a finger is extended (or not) and can identify finger types (thumb, index, etc.)
-
-The idea is detect a sequnce of events:
-
-Index extended
-Index not extended AND pinchStrenth > SOME_VALUE
-
-So if we detect index extedned we set flag "readyToShoot"
-If indexNotExtended && readyToShoot && pinchStrength > triggerThreshHold
-  fire; readyToShoot = false
-end
-
-
-
- */
 //-------------------------------------------------------------------
 void draw() {
   int extendedFingers = 0;
@@ -130,53 +131,71 @@ void draw() {
 
 
       FingerList fingers = hand.fingers();
-      
+
       // Seems there are ALWAYS five fingers detected.
       // But you can check if  afinger is extended.
       // Ths actually works well for the "gun-hand pulls trigger" detection
       if (fingers.count() >= 1) {
         d("\t* " + fingers.count() + " Fingers!");
-        avgPos = Vector.zero();
- 
+        handPos = Vector.zero();
+
         for (Finger finger : fingers) {
           println("\t* finger type:\t" + finger.type() + "\t is extended? " + finger.isExtended() );
           if  (finger.isExtended() ) {
-            
             if( finger.type().toString().equals("TYPE_INDEX") ) {
-               readyToShoot = true;
+              readyToShoot = true;
             }
-              extendedFingers++;
-              avgPos  = avgPos.plus(finger.tipPosition());
+            extendedFingers++;
+            handPos  = handPos.plus(finger.tipPosition());
           } else  {
             if ( finger.type().toString().equals("TYPE_INDEX") ) {
               println(" - - - - - INDEX is not extended, readyToShoot = "+readyToShoot+";hand.grabStrength()  = " + hand.grabStrength()  );
-            if (readyToShoot && hand.grabStrength() > 0.2  ) {
+              if (readyToShoot &&  (shootCountdown == 0 ) && hand.grabStrength() > 0.2  ) {
                 readyToShoot = false;
-                println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                println("!!!!!!!!!!!!!!!!!!!      FIRE        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                bg = color(0,0,255);
-             }
+                shootCountdown = SHOOT_COUNTDOWN_MAX;
+              }
             }
           }
 
         }
 
-        
+
 
         if (extendedFingers>0) {
-          avgPos = avgPos.divide(extendedFingers);
-          d("avgPos x: " + avgPos.getX() );
-          normalizedAvgPos = box.normalizePoint(avgPos, true);
+          handPos = hand.palmPosition(); //handPos.divide(extendedFingers);
+          d("handPos x: " + handPos.getX() );
+          normalizedHandPos = box.normalizePoint(handPos, true);
         }
       } // if fingers
     } //  if hands 
+    if (shootCountdown > 0) { bg = color(0,0,255); }
+    shootCountdown--;
+    if (shootCountdown < 0 ) {shootCountdown = 0; }
     background(bg);
 
-    writePosition();
+    renderHand();
   }
+
 }
 
+
+void renderHand(){
+
+  int yLoc = mapYforScreen( lastPos().getY() );
+  int xLoc = mapXforScreen(lastPos().getX());
+  fill(0,0,0);
+  ellipse(xLoc, yLoc,  55, 55); 
+  
+    lights();
+    pushMatrix();
+
+  translate(xLoc, yLoc, 0);
+//    rotateX(rotY);
+  //  rotateY(rotX);
+
+    model.draw();
+
+    popMatrix();
+
+}
 
