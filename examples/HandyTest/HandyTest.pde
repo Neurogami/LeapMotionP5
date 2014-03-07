@@ -65,12 +65,12 @@ void d(String msg) {
 }
 
 int mapXforScreen(float xx) {
-  return( int( map(xx, 0.0, 1.0, 0.0, width-130) ) );
+  return( int( map(xx, 0.0, 1.0, 0.0, width) ) );
 }
 
 //-------------------------------------------------------------------
 int mapYforScreen(float yy) {
-  return( int( map(yy, 0.0, 1.0,  height, 10) ) );
+  return( int( map(yy, 0.0, 1.0,  height, 0) ) );
 }
 
 
@@ -82,6 +82,7 @@ boolean sketchFullScreen() {
 //-------------------------------------------------------------------
 void setup() {
   size(displayWidth, displayHeight, OPENGL);
+//  size(displayWidth, displayHeight, P3D);
 
   model = new OBJModel(this, "jgb-experiment.obj", "absolute", TRIANGLES);
   model.enableDebug();
@@ -91,12 +92,9 @@ void setup() {
 
 //-------------------------------------------------------------------
 Vector lastPos() {
-  Vector lp = new Vector(handPos);
+  // Vector lp = new Vector(handPos);
   Vector normlp = new Vector( normalizedHandPos);
-
-
   d(normlp.toString());
-
   return normlp ;
 }
 
@@ -120,14 +118,14 @@ void draw() {
   background(bg);
   Hand hand;
 
-    shootCountdown--;
-  
-    if (shootCountdown > 0) { 
-      bg = color(0,0,255); 
-    } else { 
-      shootCountdown = 0; 
-    }
-    
+  shootCountdown--;
+
+  if (shootCountdown > 0) { 
+    bg = color(0,0,255); 
+  } else { 
+    shootCountdown = 0; 
+  }
+
 
   if (globalHands!=null) {
     if (globalHands.count() > 0 ) {
@@ -186,8 +184,8 @@ void draw() {
 
     } else { 
       background(bg); 
-  } 
-   
+    } 
+
 
 
   }
@@ -195,46 +193,88 @@ void draw() {
 }
 
 
+
+// So fr, the hand (really the gun model) stays at a fixed rotation
+// to mimic "gansta" shooting style.
+//
+// The gun will tilt up/down and left/right.
+//
+// It does not move in or out based on Leap Z location.
+//
+// A goal is to be able to draw a line parallel to the gun barrel
+// out towards some target some distance away.
+// We can get Hand direction().
+//
+//  Given that,  assume for now we want a line for the
+//  hand "location" AKA palm postition
+//
+//  Let's start with a line that just goes from the palm center
+//  to a fixed point.
+//
+//  
 void renderHand(Hand hand){
 
   // rotX = 0.0; // 0.5 makes it ppint kinda to the left
-              // 1.0 points much to the left, but not fully sideways
-              // 2.0 has it turn left and *slightly* facing the user.
-              //  1.5 seeems to be full-sideways face-left
-  rotX = 0.0; // 1.5: Rotates away from the use and faces down.
+  // 1.0 points much to the left, but not fully sideways
+  // 2.0 has it turn left and *slightly* facing the user.
+  //  1.5 seeems to be full-sideways face-left
+  // 1.5: Rotates away from the use and faces down.
 
   rotZ = -1.5; // 1.5: rotates top-over-handle clockwse
-  
+
   rotY = -1.0 * hand.direction().yaw();
   rotX = -1 * hand.direction().pitch();
 
-//      rotY = hand.direction().pitch();
-   if (hand.isLeft() ) {
-     rotZ = 1.5;
-//     rotY = hand.direction().yaw();
-  //   rotX = hand.direction().pitch();
-   }
 
-  int yLoc = mapYforScreen( lastPos().getY() );
+  if (hand.isLeft() ) { rotZ = 1.5; }
+
+  // lastPos returns a normalizedHandPostion (which comes from palm postion)
+  // This means the values are in a 0..1 range
+  int yLoc = mapYforScreen(lastPos().getY() );
   int xLoc = mapXforScreen(lastPos().getX());
 
- 
   println("Hand pitch:\t" + hand.direction().pitch());
 
-  fill(0,0,0);
-  ellipse(xLoc, yLoc,  55, 55); 
+  fill(255,0,0);
+  strokeWeight(10);
+
+  ellipse(xLoc, yLoc,  100, 100); 
+
+  // Doing this OUTSIDE the matrx gives the correct end-point but
+  // the line is not starting at the correct place.
+  // How is it that the ellips goes at the right place but the line
+  // does not?
+  strokeWeight(20);
+  stroke(255, 128,126);
+  line( xLoc, yLoc,  width/2, height/2);
+  lights();
+
+  pushMatrix();  //-------------------------------------------------------
+
+  //translate(xLoc, yLoc, lastPos().getZ() );
+  translate(xLoc, yLoc, 0 );
   
-    lights();
-    pushMatrix();
+  // Once you translate in space vlaues are relative.
+  // You start at 0,0,0, then translate that point to some
+  // new coordinates.  Now 0,0,0 is where you transalted to.
+  // If you want some fixed location (e.g. center of the screen)
+  // you need to calculate that offset.
+  //
+ 
 
-  translate(xLoc, yLoc, 0);
-    rotateX(rotX);
-    rotateY(rotY);
-    rotateZ(rotZ);
 
-    model.draw();
+ 
+  rotateX(rotX);
+  rotateY(rotY);
+  rotateZ(rotZ);
+  strokeWeight(0);
+  model.draw();
 
-    popMatrix();
+  popMatrix(); //-------------------------------------------------------
+
+
+  strokeWeight(0);
+
 
 }
 
