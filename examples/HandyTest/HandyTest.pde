@@ -197,20 +197,30 @@ void draw() {
 
 void renderHand(Hand hand){
 
-  rotX = 0.; // 0.5 makes it ppint kinda to the left
+  // rotX = 0.0; // 0.5 makes it ppint kinda to the left
               // 1.0 points much to the left, but not fully sideways
               // 2.0 has it turn left and *slightly* facing the user.
               //  1.5 seeems to be full-sideways face-left
-  rotY = 0.0; // 1.5: Rotates away from the use and faces down.
+  rotX = 0.0; // 1.5: Rotates away from the use and faces down.
 
   rotZ = -1.5; // 1.5: rotates top-over-handle clockwse
+  
+  rotY = -1.0 * hand.direction().yaw();
+  rotX = -1 * hand.direction().pitch();
 
+//      rotY = hand.direction().pitch();
    if (hand.isLeft() ) {
      rotZ = 1.5;
+//     rotY = hand.direction().yaw();
+  //   rotX = hand.direction().pitch();
    }
 
   int yLoc = mapYforScreen( lastPos().getY() );
   int xLoc = mapXforScreen(lastPos().getX());
+
+ 
+  println("Hand pitch:\t" + hand.direction().pitch());
+
   fill(0,0,0);
   ellipse(xLoc, yLoc,  55, 55); 
   
@@ -218,8 +228,8 @@ void renderHand(Hand hand){
     pushMatrix();
 
   translate(xLoc, yLoc, 0);
-    rotateX(rotY);
-    rotateY(rotX);
+    rotateX(rotX);
+    rotateY(rotY);
     rotateZ(rotZ);
 
     model.draw();
