@@ -76,13 +76,14 @@ int mapYforScreen(float yy) {
 
 //-------------------------------------------------------------------
 boolean sketchFullScreen() {
-  return true;
+  //return true;
+  return false;
 }
 
 //-------------------------------------------------------------------
 void setup() {
   size(displayWidth, displayHeight, OPENGL);
-//  size(displayWidth, displayHeight, P3D);
+  //  size(displayWidth, displayHeight, P3D);
 
   model = new OBJModel(this, "jgb-experiment.obj", "absolute", TRIANGLES);
   model.enableDebug();
@@ -186,8 +187,6 @@ void draw() {
       background(bg); 
     } 
 
-
-
   }
 
 }
@@ -210,8 +209,13 @@ void draw() {
 //
 //  Let's start with a line that just goes from the palm center
 //  to a fixed point.
-//
 //  
+//  The next trick is to draw a draw parallel to the direction of the hand
+//
+//      P2 = P1 + n * V
+//  
+//  Whihc should be "destination point is the current point + some distance N * the unit vector of direction.
+//   
 void renderHand(Hand hand){
 
   // rotX = 0.0; // 0.5 makes it ppint kinda to the left
@@ -220,17 +224,20 @@ void renderHand(Hand hand){
   //  1.5 seeems to be full-sideways face-left
   // 1.5: Rotates away from the use and faces down.
 
-  rotZ = -1.5; // 1.5: rotates top-over-handle clockwse
+  rotZ = 0; //hand.direction().getZ() ; //-1.5; // 1.5: rotates top-over-handle clockwse
 
-  rotY = -1.0 * hand.direction().yaw();
-  rotX = -1 * hand.direction().pitch();
+  //rotY = -1.0 * hand.direction().yaw();
+  rotX = 0; // hand.direction().getX();
+
+  //  rotX = -1 * hand.direction().pitch();
+  rotY = 0; //hand.direction().getY();
 
 
-  if (hand.isLeft() ) { rotZ = 1.5; }
+  //  if (hand.isLeft() ) { rotZ = 1.5; }
 
   // lastPos returns a normalizedHandPostion (which comes from palm postion)
   // This means the values are in a 0..1 range
-  int yLoc = mapYforScreen(lastPos().getY() );
+  int yLoc = mapYforScreen(lastPos().getY());
   int xLoc = mapXforScreen(lastPos().getX());
 
   println("Hand pitch:\t" + hand.direction().pitch());
@@ -240,30 +247,54 @@ void renderHand(Hand hand){
 
   ellipse(xLoc, yLoc,  100, 100); 
 
-  // Doing this OUTSIDE the matrx gives the correct end-point but
-  // the line is not starting at the correct place.
-  // How is it that the ellips goes at the right place but the line
-  // does not?
+
   strokeWeight(20);
   stroke(255, 128,126);
   line( xLoc, yLoc,  width/2, height/2);
+
+  //      P2 = P1 + n * V
+  stroke(128, 128, 255);
+  int shotDistance = 10;
+
+
+int count = 20;
+  com.leapmotion.leap.Vector distV;
+  for(int n=count; n > 0; n--) {
+
+    distV =  handPos.plus(hand.direction().times(shotDistance * n));
+    distV = box.normalizePoint(distV, true);
+    
+    println("distV is\t\t" + distV );
+    stroke(n*10);
+    strokeWeight( count - n );
+
+    println("mapXforScreen(distV.getX()) = " + mapXforScreen(distV.getX()) ); 
+    ellipse(mapXforScreen(distV.getX()), mapYforScreen(distV.getY()),  count-n, count-n );   
+
+  }
+
+   // Oddness: The path made by the series of circles does not match the line drawn
+
+    distV =  handPos.plus(hand.direction().times(shotDistance * count));
+    distV = box.normalizePoint(distV, true);
+    
+    line( xLoc, yLoc, 0,   mapXforScreen(distV.getX()),  mapYforScreen(distV.getY()), - (shotDistance * count)) ;
+  
+    // This is *close* but the line is not always parallel with the gun barrel. Why?
+  // Perhaps we need to use pitch/roll/yaw ?
+  // Or translate/rotate the gun based on hand direction?
+  // 
+  // It may be that the rotation of the gun is occuring at a fiffert point than the
+  // hand, so that the barrel is not at the same angle as the hand.
+  
+  
+  
   lights();
 
   pushMatrix();  //-------------------------------------------------------
 
-  //translate(xLoc, yLoc, lastPos().getZ() );
-  translate(xLoc, yLoc, 0 );
-  
-  // Once you translate in space vlaues are relative.
-  // You start at 0,0,0, then translate that point to some
-  // new coordinates.  Now 0,0,0 is where you transalted to.
-  // If you want some fixed location (e.g. center of the screen)
-  // you need to calculate that offset.
-  //
- 
-
-
- 
+  translate(xLoc, yLoc, lastPos().getZ() );
+  // translate(xLoc, yLoc, 0 ); 
   rotateX(rotX);
   rotateY(rotY);
   rotateZ(rotZ);
