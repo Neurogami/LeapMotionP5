@@ -59,6 +59,9 @@ int SHOOT_COUNTDOWN_MAX = 10;
 boolean readyToShoot = false;
 int shootCountdown = 0;
 
+Target heart;
+
+int targetDepth = -900;
 
 void d(String msg) {
   if(DEBUG){println(msg);}
@@ -93,6 +96,8 @@ void setup() {
   model.enableDebug();
   model.scale(40);
   model.translateToCenter();
+
+  heart = new Target("Love_Heart_symbol_005.svg", width-20, height-20, targetDepth);
 }
 
 //-------------------------------------------------------------------
@@ -123,6 +128,7 @@ void draw() {
   background(bg);
   Hand hand;
 
+  
   shootCountdown--;
 
   if (shootCountdown > 0) { 
@@ -192,7 +198,7 @@ void draw() {
     } 
 
   }
-
+ heart.render();
 }
 
 
