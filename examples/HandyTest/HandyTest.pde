@@ -41,6 +41,7 @@ Hand.pinchStrength
 import com.neurogami.leaphacking.*;
 import saito.objloader.*;
 
+  color bg = color(255);
 
 boolean DEBUG = true;
 LeapListener listener = new LeapListener();
@@ -97,7 +98,7 @@ void setup() {
   model.scale(40);
   model.translateToCenter();
 
-  heart = new Target("Love_Heart_symbol_005.svg", width-20, height-20, targetDepth);
+  heart = new Target("Love_Heart_symbol_005.svg", width/2, -100, targetDepth);
 }
 
 //-------------------------------------------------------------------
@@ -123,12 +124,12 @@ color grabStrengthToColor(Hand h) {
 //-------------------------------------------------------------------
 void draw() {
   int extendedFingers = 0;
-  color bg = color(255);
+  bg = color(255);
 
   background(bg);
   Hand hand;
 
-  
+
   shootCountdown--;
 
   if (shootCountdown > 0) { 
@@ -162,6 +163,8 @@ void draw() {
         d("\t* " + fingers.count() + " Fingers!");
         handPos = Vector.zero();
 
+
+
         for (Finger finger : fingers) {
           println("\t* finger type:\t" + finger.type() + "\t is extended? " + finger.isExtended() );
           if  (finger.isExtended() ) {
@@ -174,8 +177,10 @@ void draw() {
             if ( finger.type().toString().equals("TYPE_INDEX") ) {
               println(" - - - - - INDEX is not extended, readyToShoot = "+readyToShoot+";hand.grabStrength()  = " + hand.grabStrength()  );
               if (readyToShoot &&  (shootCountdown == 0 ) && hand.grabStrength() > 0.2  ) {
+
                 readyToShoot = false;
                 shootCountdown = SHOOT_COUNTDOWN_MAX;
+
               }
             }
           }
@@ -198,7 +203,7 @@ void draw() {
     } 
 
   }
- heart.render();
+  heart.render();
 }
 
 
@@ -249,8 +254,7 @@ void renderHand(Hand hand){
 
   strokeWeight(20);
   stroke(255, 128,126);
-  line( xLoc, yLoc,  width/2, height/2);
-
+  
   //      P2 = P1 + n * V
   stroke(128, 128, 255);
   int shotDistance = 10;
@@ -258,34 +262,65 @@ void renderHand(Hand hand){
 
   int count = 20;
   com.leapmotion.leap.Vector distV;
-  for(int n=count; n > 0; n--) {
-    distV =  handPos.plus(hand.direction().times(shotDistance * n));
-    distV = box.normalizePoint(distV, true);
-    //println("distV is\t\t" + distV );
-    stroke(n*10);
-    strokeWeight( count - n );
-    //  println("mapXforScreen(distV.getX()) = " + mapXforScreen(distV.getX()) ); 
-    ellipse(mapXforScreen(distV.getX()), mapYforScreen(distV.getY()),  count-n, count-n );   
-  }
 
   distV =  handPos.plus(hand.direction().times(shotDistance * count));
   distV = box.normalizePoint(distV, true);
 
-  line( xLoc, yLoc, 0,   mapXforScreen(distV.getX()),  mapYforScreen(distV.getY()), - (shotDistance * count)) ;
 
   lights();
 
   pushMatrix();  //-------------------------------------------------------
 
   translate(xLoc, yLoc, zLoc );
-  BoundingBox bbox = new BoundingBox(this, model);
-  println("moidel box center:\t" + bbox.getCenter());
 
 
   // translate(xLoc, yLoc, 0 ); 
   rotateX(rotX);
   rotateY(rotY);
   rotateZ(rotZ);
+
+/// RAYTRACE!
+    
+                // Draw the series of circles.
+                ///////
+
+                strokeWeight(3);
+                stroke(255,128,255);
+                boolean zHit = false;
+
+                for ( int z = 0; z > targetDepth*4; z-=30) {
+                  pushMatrix();
+                  translate(0, -30, z);     
+                  ellipse(0, 0, 20, 20  );
+                  popMatrix();
+
+                  if (screenZ(0,0,z) < heart.scrZ() ) {
+                    println("\nHIT! " + screenZ(0,0,z) + " <  " + heart.scrZ() );
+                    zHit = true;
+                  } else { 
+                    println("\nNO HIT! " + screenZ(0,0,z) + " >  " + heart.scrZ() );
+                    zHit = false; 
+                  }
+
+
+
+                  if (zHit) {
+                    println("zHit = " + zHit + ". We have reached target z: screenZ(0,0,z) = " + screenZ(0,0,z) + " ; heart.screenZ()  = " + heart.scrZ()  );
+                    println("Line x:y = " + screenX(0,0,z) + ":" + screenY(0,0,z) + ". Target x:y = " + heart.scrX() + ":" + heart.scrY() );     
+                    println("Have an XY  hit? " + heart.haveIntersectXY(screenX(0,0,z), screenY(0,0,z)) );
+                    if ( heart.haveIntersectXY(screenX(0,0,z), screenY(0,0,z)) ) {
+                      println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+                      println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+                      println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+                      println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+                      bg = color(255, 0, 0);
+                    }
+                  }
+                }
+
+                /////// 
+
+
   strokeWeight(0);
   model.draw();
 

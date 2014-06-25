@@ -68,7 +68,7 @@ void draw() {
   boolean zHit = false;
   bgColor  = color(133,0,0);
   
-  for( int z = 0; z > targetDepth*4; z-=30) {
+  for ( int z = 0; z > targetDepth*4; z-=30) {
       pushMatrix();
       translate(0, -30, z);     
       ellipse(0, 0, 20, 20  );

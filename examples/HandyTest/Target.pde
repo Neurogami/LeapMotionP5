@@ -38,7 +38,7 @@ class Target {
   }
 
   boolean haveIntersectXY(float x, float y) {
-    if (dist(absX, absY, x, y) < 40.0 ) {
+    if (dist(absX, absY, x, y) < 100.0 ) {
       return true;
     } 
     return false;
