@@ -43,7 +43,7 @@ import saito.objloader.*;
 
   color bg = color(255);
 
-boolean DEBUG = true;
+// boolean DEBUG = true;
 LeapListener listener = new LeapListener();
 Controller controller    = new Controller(listener);
 
@@ -64,22 +64,14 @@ Target heart;
 
 int targetDepth = -900;
 
-void d(String msg) {
-  if(DEBUG){println(msg);}
-}
+//void d(String msg) { if(DEBUG){println(msg);} }
 
-int mapXforScreen(float xx) {
-  return( int( map(xx, 0.0, 1.0, 0.0, width) ) );
-}
+// int mapXforScreen(float xx) { return( int( map(xx, 0.0, 1.0, 0.0, width) ) ); }
 
 //-------------------------------------------------------------------
-int mapYforScreen(float yy) {
-  return( int( map(yy, 0.0, 1.0,  height, 0) ) );
-}
+// int mapYforScreen(float yy) { return( int( map(yy, 0.0, 1.0,  height, 0) ) ); }
 
-int mapZforScreen(float f) {
-  return( int( map(f, 0.0, 1.0, -20, 200) ) );
-}
+int mapZforScreen(float f) { return( int( map(f, 0.0, 1.0, -20, 200) ) ); }
 
 
 //-------------------------------------------------------------------

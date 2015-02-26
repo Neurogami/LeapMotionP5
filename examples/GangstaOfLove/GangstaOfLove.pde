@@ -1,4 +1,6 @@
 import com.neurogami.leaphacking.*;
+import com.leapmotion.leap.*;
+
 import saito.objloader.*;
 
 /*
