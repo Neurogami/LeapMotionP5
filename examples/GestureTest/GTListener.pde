@@ -14,6 +14,8 @@ https://developer.leapmotion.com/documentation/java/api/Leap.Gesture.html#javacl
  */
 class PointerListener extends Listener {
 
+  float maxPinch = -1.0;
+
   //------------------------------------------------------------
   void onInit(Controller controller) {
     d("Initialized");
@@ -24,7 +26,9 @@ class PointerListener extends Listener {
     controller.enableGesture(Gesture.Type.TYPE_KEY_TAP);
     controller.enableGesture(Gesture.Type.TYPE_SCREEN_TAP);
     controller.enableGesture(Gesture.Type.TYPE_SWIPE);
-
+    controller.config().setFloat("Gesture.Circle.MinArc", 3);
+    controller.config().save();
+    
   }
 
   //------------------------------------------------------------
@@ -37,13 +41,12 @@ class PointerListener extends Listener {
     d("Disconnected");
   }
 
-  
+
 
   //------------------------------------------------------------
   void onFrame(Controller controller) {
-
-
     globalHands = controller.frame().hands();
+    float pinchStrenth;
 
     if (useCurrentFrameForGestures) {
       gestures = controller.frame().gestures( controller.frame() ); // You can also pass a frame index, but what index would you want?
@@ -54,11 +57,8 @@ class PointerListener extends Listener {
     box = controller.frame().interactionBox();
     if (gestures.count() > 0 ) {
 
-      // synchronized(this) {  
-
       for (int index = 0; index < gestures.count(); index++) {
         if (!handledGestures.containsKey(new Integer( gestures.get(index).id())) ) {
-
           if (gestures.get(index).state() == Gesture.State.STATE_STOP ) {
             switch (gestures.get(index).type()) {
               case TYPE_CIRCLE:
@@ -76,29 +76,40 @@ class PointerListener extends Listener {
               default:
                 break;
             }
-println( "GTL:   79" ); 
             println( gestures.get(index).type() ); 
-            println( "GTL:   81" ); 
             handledGestures.put( new Integer(gestures.get(index).id()), gestures.get(index) );
-            println( "GTL:   83" ); 
           }
-          println( "GTL:   85" ); 
         }
-        println( "GTL:   87" ); 
       }
-      // } //  sync
     }
 
     // Now look for other interesting behavior, like pinching or whatever
+    /*
 
+       Pinch detection is tricky.
+
+       First, LM seems a bit fussy about catching it.
+
+       But, assuming the pinch is detected you likely do not want to react to every pinch position; 
+       the goal is to catch distinct pinch events, not all the steps leading to and from the pinch
+       threshold you set.
+
+       So, this code tries to trap when an actual pinch has occured and the fingers have then retracted.
+
+     */
     if ( globalHands.count() > 0 ){
-      if ( (globalHands.frontmost().pinchStrength() > 0.9 ) && ( globalHands.frontmost().fingers().extended().count() > 2 ) ) {
-     //synchronized(this) {   // is this needed if the pinchInfo structure is a ConcurrentHashMap?
-        println( "GTL:   101" ); 
-        pinchInfo.put("PINCH: " + globalHands.frontmost().fingers().extended().count() + " " + globalHands.frontmost().pinchStrength(), DECAY_MAX);
-                println( "GTL:   103" ); 
-     // }
-     }
+      pinchStrenth = globalHands.frontmost().pinchStrength();
+      if ( (pinchStrenth > 0.8 ) && ( globalHands.frontmost().fingers().extended().count() > 2 ) ) {
+        if (pinchStrenth > maxPinch ) {
+          maxPinch = pinchStrenth;
+        }
+        println( maxPinch  + " - " +  pinchStrenth + " = " + (maxPinch  - pinchStrenth));  
+        if ( maxPinch  - pinchStrenth > 0.09   ) {
+          pinchInfo.put("PINCH: " + globalHands.frontmost().fingers().extended().count() + " " + pinchStrenth, DECAY_MAX);
+          maxPinch  = -1.0;
+          setNextState();
+        }
+      }
     }
   } 
 

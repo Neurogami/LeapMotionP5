@@ -13,7 +13,36 @@ int DECAY_CO =  256/DECAY_MAX;
 boolean useCurrentFrameForGestures = false;
 
 
+class State {
 
+  int stateNum;
+  int nextState;
+  color stateColor;
+  
+  State( int stateNum, int nextState, color c) {
+  
+  this.stateNum   = stateNum;
+  this.nextState  = nextState;
+  this.stateColor = c;
+  }
+
+  public int nextState() {
+    return this.nextState;
+  }
+  
+  public color col() {
+    return this.stateColor;
+  }
+
+ public int num() {
+    return this.stateNum;
+  }
+
+}
+
+ConcurrentHashMap<Integer, State> stateMap = new ConcurrentHashMap<Integer, State>();
+
+int currentState = 0;
 /*
 
    What we want is to detect assorted gestures and such (pinching, for example)
@@ -31,6 +60,7 @@ ConcurrentHashMap<String, Integer> pinchInfo      = new ConcurrentHashMap<String
 
 ConcurrentHashMap <Integer, Gesture> handledGestures = new ConcurrentHashMap <Integer, Gesture>();
 
+
 //-------------------------------------------------------------------
 boolean sketchFullScreen() {
   return true;
@@ -40,6 +70,15 @@ boolean sketchFullScreen() {
 void setup() {
   size(displayWidth, displayHeight, OPENGL);
   DEBUG = false;
+  // State s1 = new State(0, 1, color(255, 200, 200) );
+
+stateMap.clear();
+
+stateMap.put( 0,  new State(0, 1, color(255, 200, 200) ));
+stateMap.put( 1, new State(1, 2, color(200, 255, 200) ) );
+stateMap.put( 2, new State(2, 0, color(200, 200, 255) ) );
+
+
 }
 
 
@@ -57,13 +96,10 @@ void writeGestures( ConcurrentHashMap<String, Integer>  gestureInfo, int rgb, in
 
   synchronized(this) {  
 
-    //        println( "GT:   64" );   
     Iterator<String> iterate = gestureInfo.keySet().iterator();
-     println( "GT:   66" );   
     while (iterate.hasNext() ) {
       String gi =  iterate.next();
       decay = gestureInfo.get(gi);
-      println( "GT:   70" );   
       fill(rgb, decay*DECAY_CO);   
 
       text(" " + gi, x, y);
@@ -71,13 +107,9 @@ void writeGestures( ConcurrentHashMap<String, Integer>  gestureInfo, int rgb, in
       decay--;
 
       if (decay < 1) {
-        println( "GT:   78" );   
         iterate.remove();
-        println( "GT:   80" );   
       } else {
-        println( "GT:   82" );   
         gestureInfo.put(gi, decay);
-        println( "GT:   84" );   
       }
     }
   }
@@ -102,7 +134,9 @@ Vector lastPos() {
 
 //-------------------------------------------------------------------
 void draw() {
-  background(255);
+
+//  stateMap.get(currentState).col();
+  background( stateMap.get(currentState).col());
 
 
   writeGestures( swipeInfo, #00ff00, 10);
@@ -153,4 +187,8 @@ void keyPressed() {
 
 }
 
+
+void setNextState() {
+  currentState = stateMap.get(currentState).nextState()  ;
+}
 
