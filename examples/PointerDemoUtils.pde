@@ -49,7 +49,10 @@ void writePosition(){
   int xLoc = mapXforScreen(lastPos().getX()); 
 
   textSize(32);
-  fill(zMap, zMap, zMap);
+  
+  // TEST 1: See if the Z value can be used to drive HSB
+  colorMode(HSB);
+  fill(zMap, 255, 100);
 
   d("lastPos() : " + lastPos() );
   d("normalizedAvgPos  : " + normalizedAvgPos );
