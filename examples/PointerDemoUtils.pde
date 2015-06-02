@@ -63,24 +63,20 @@ void addToDrawing(PGraphics pg) {
   int y = mapYforScreen( lastPos().getY() );
   int x = mapXforScreen(lastPos().getX()); 
 
-  pg.beginDraw();
-  pg.colorMode(HSB);
-  pg.stroke(zMap, 255, 100);
-  pg.strokeWeight(drawingWeight);
-  pg.fill(zMap, 255, 100);
-
+  colorMode(HSB);
+  stroke(zMap, 255, 100);
+  strokeWeight(drawingWeight);
+  fill(zMap, 255, 100);
 
   if (lastDrawingX == NULL_DRAWING_VALUE ) {
-     pg.ellipse(x, y, drawingWeight/2, drawingWeight/2);
+     ellipse(x, y, drawingWeight/2, drawingWeight/2);
     } else {
-    pg.line(lastDrawingX, lastDrawingY, x, y );
-
+    line(lastDrawingX, lastDrawingY, x, y );
   }
 
   lastDrawingX = x;
   lastDrawingY = y;
 
-  pg.endDraw();
 }
 
 void bltImage(PGraphics pg) {

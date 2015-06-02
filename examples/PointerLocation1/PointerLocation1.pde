@@ -9,12 +9,13 @@ PGraphics       drawing;
 void setup() {
   size(displayWidth, displayHeight, OPENGL);
   drawing = createGraphics(width, height);
+  background(255);
 }
 
 
 //-------------------------------------------------------------------
 void draw() {
-  background(255);
+  
 
   
   //  For some reason the app always starts off as if there is a pinch.
@@ -39,8 +40,8 @@ void draw() {
      lastDrawingY = NULL_DRAWING_VALUE;
   }
   
-  bltImage(drawing);
-  writePosition();
+//  bltImage(drawing);
+  //writePosition();
 
 }
 
