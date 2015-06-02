@@ -2,6 +2,8 @@ com.leapmotion.leap.Vector avgPos           = com.leapmotion.leap.Vector.zero();
 com.leapmotion.leap.Vector normalizedAvgPos = com.leapmotion.leap.Vector.zero();
 
 
+int NULL_DRAWING_VALUE = -99;
+
 float yMax = 0;
 float xMax = 0;
 float yMin = 0;
@@ -10,6 +12,10 @@ int   minZ = 0;
 int   maxZ = 1;
 int   topX = 1;
 int   topY = 1;
+
+int lastDrawingX = NULL_DRAWING_VALUE;
+int lastDrawingY = NULL_DRAWING_VALUE;
+
 
 
 boolean DEBUG = true;
@@ -42,29 +48,41 @@ int zToColorInt(float fz) {
 }
 
 
-void addToDrawing(PGraphics pg) {
 
+
+//-------------------------------------------------------------------
+// This works, sort of.
+// The problme is latency in detecting pinch and then placing the ellipse.
+// Even if you never release the pinhc there are gaps.  
+// Something needs to track the last location and draw a line form that point to the new point.
+// If the pinch is released then the last point get s set to nil or something; then the
+// new drawing begins as a solo point, not a line.
+void addToDrawing(PGraphics pg) {
+  int drawingWeight = 10;
   int zMap = zToColorInt(lastPos().getZ());
   int y = mapYforScreen( lastPos().getY() );
   int x = mapXforScreen(lastPos().getX()); 
 
   pg.beginDraw();
-  
- 
-     pg.colorMode(HSB);
-    pg.stroke(zMap, 255, 100);
-    pg.strokeWeight(25);
-    pg.fill(zMap, 255, 100);
-    pg.ellipse(x, y, 5, 5);
+  pg.colorMode(HSB);
+  pg.stroke(zMap, 255, 100);
+  pg.strokeWeight(drawingWeight);
+  pg.fill(zMap, 255, 100);
 
 
- 
-   pg.endDraw();
+  if (lastDrawingX == NULL_DRAWING_VALUE ) {
 
+     pg.ellipse(x, y, drawingWeight/2, drawingWeight/2);
 
+    } else {
+    pg.line(lastDrawingX, lastDrawingY, x, y );
 
-  
-     
+  }
+
+  lastDrawingX = x;
+  lastDrawingY = y;
+
+  pg.endDraw();
 }
 
 void bltImage(PGraphics pg) {
@@ -78,12 +96,12 @@ void writePosition(){
   int xLoc = mapXforScreen(lastPos().getX()); 
 
   textSize(32);
-  
+
   // TEST 1: See if the Z value can be used to drive HSB
   colorMode(HSB);
   fill(zMap, 255, 100);
 
-//  d("lastPos() : " + lastPos() );
+  //  d("lastPos() : " + lastPos() );
   // d("normalizedAvgPos  : " + normalizedAvgPos );
 
   text("X: " + lastPos().getX(), xLoc, baseY);

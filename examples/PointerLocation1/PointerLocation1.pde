@@ -33,7 +33,12 @@ void draw() {
   
   
   
+  } else {
+     lastDrawingX = NULL_DRAWING_VALUE;
+     lastDrawingY = NULL_DRAWING_VALUE;
+
   }
+  
  //addToDrawing(drawing);
   bltImage(drawing);
   writePosition();
