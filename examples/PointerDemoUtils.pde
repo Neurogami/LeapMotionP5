@@ -58,7 +58,7 @@ int zToColorInt(float fz) {
 // If the pinch is released then the last point get s set to nil or something; then the
 // new drawing begins as a solo point, not a line.
 void addToDrawing(PGraphics pg) {
-  int drawingWeight = 10;
+  int drawingWeight = 3;
   int zMap = zToColorInt(lastPos().getZ());
   int y = mapYforScreen( lastPos().getY() );
   int x = mapXforScreen(lastPos().getX()); 
@@ -71,9 +71,7 @@ void addToDrawing(PGraphics pg) {
 
 
   if (lastDrawingX == NULL_DRAWING_VALUE ) {
-
      pg.ellipse(x, y, drawingWeight/2, drawingWeight/2);
-
     } else {
     pg.line(lastDrawingX, lastDrawingY, x, y );
 

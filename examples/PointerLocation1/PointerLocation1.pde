@@ -16,6 +16,9 @@ void setup() {
 void draw() {
   background(255);
 
+  
+  //  For some reason the app always starts off as if there is a pinch.
+  //  For best results enter the interaction area with an open hand.
   if (listener.havePinch() ) {
     d("*****************************************************************************");
 
@@ -31,15 +34,11 @@ void draw() {
   
     addToDrawing(drawing);
   
-  
-  
   } else {
      lastDrawingX = NULL_DRAWING_VALUE;
      lastDrawingY = NULL_DRAWING_VALUE;
-
   }
   
- //addToDrawing(drawing);
   bltImage(drawing);
   writePosition();
 
