@@ -12,7 +12,7 @@ int   topX = 1;
 int   topY = 1;
 
 
-boolean DEBUG = false;
+boolean DEBUG = true;
 
 //-------------------------------------------------------------------
 void d(String msg) {
@@ -40,6 +40,7 @@ int zToColorInt(float fz) {
   if (fz > maxZ) { return 255; }
   return int(map(fz, minZ, maxZ,  0, 255));
 }
+
 
 //-------------------------------------------------------------------
 void writePosition(){
