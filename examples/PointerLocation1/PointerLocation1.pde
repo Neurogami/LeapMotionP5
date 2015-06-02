@@ -3,18 +3,41 @@ import com.leapmotion.leap.*;
 
 PointerListener listener   = new PointerListener();
 Controller      controller = new Controller(listener);
+PGraphics       drawing;
 
 //-------------------------------------------------------------------
 void setup() {
   size(displayWidth, displayHeight, OPENGL);
+  drawing = createGraphics(width, height);
 }
+
 
 //-------------------------------------------------------------------
 void draw() {
   background(255);
+
   if (listener.havePinch() ) {
-     writePosition();
+    d("*****************************************************************************");
+
+     // TODO:  The code needs to paint to an offscreen buffer, adding to the image
+     // when the fingers are pinched.
+     // On draw(), the iamge is blt'ed to the screen and whatever else
+     // gets overlayed.
+     // If the hand is fully extended, then the buffer image is wiped so
+     // the user can start fresh.
+     // https://processing.org/examples/creategraphics.html
+     // https://processing.org/discourse/beta/num_1275325290.html
+     // https://processing.org/reference/PGraphics.html
+  
+    addToDrawing(drawing);
+  
+  
+  
   }
+ //addToDrawing(drawing);
+  bltImage(drawing);
+  writePosition();
+
 }
 
 //-------------------------------------------------------------------

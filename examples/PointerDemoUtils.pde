@@ -42,6 +42,34 @@ int zToColorInt(float fz) {
 }
 
 
+void addToDrawing(PGraphics pg) {
+
+  int zMap = zToColorInt(lastPos().getZ());
+  int y = mapYforScreen( lastPos().getY() );
+  int x = mapXforScreen(lastPos().getX()); 
+
+  pg.beginDraw();
+  
+ 
+     pg.colorMode(HSB);
+    pg.stroke(zMap, 255, 100);
+    pg.strokeWeight(25);
+    pg.fill(zMap, 255, 100);
+    pg.ellipse(x, y, 5, 5);
+
+
+ 
+   pg.endDraw();
+
+
+
+  
+     
+}
+
+void bltImage(PGraphics pg) {
+  image(pg, 0, 0); 
+}
 //-------------------------------------------------------------------
 void writePosition(){
   int zMap = zToColorInt(lastPos().getZ());
@@ -55,8 +83,8 @@ void writePosition(){
   colorMode(HSB);
   fill(zMap, 255, 100);
 
-  d("lastPos() : " + lastPos() );
-  d("normalizedAvgPos  : " + normalizedAvgPos );
+//  d("lastPos() : " + lastPos() );
+  // d("normalizedAvgPos  : " + normalizedAvgPos );
 
   text("X: " + lastPos().getX(), xLoc, baseY);
   text("Y: " + lastPos().getY(), xLoc, baseY + inc*2 );
@@ -67,5 +95,7 @@ void writePosition(){
 
   text("min Y: "  + yMin, xLoc, baseY + inc*6 );
   text("max Y: "  + yMax, xLoc, baseY + inc*7 );
+
+
 
 }

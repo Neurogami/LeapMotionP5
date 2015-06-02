@@ -10,7 +10,7 @@
 		at prisonerjohn@gmail.com
 -->
     
-	
+  <property environment="env"/>	
 
 	<property file="./resources/build.properties" />
 	
