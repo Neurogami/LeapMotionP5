@@ -6,13 +6,18 @@ class PointerListener extends Listener {
   private Vector normalizedAvgPos;
   private float ps;
   private boolean handSpread;
-  
+  private boolean handSpreadSwipe;
+
+  private GestureList gestureList;  
   //------------------------------------------------------------
   void onInit(Controller controller) {
     // `d` is a helper method for printing debug stuff.
     d("Initialized");
     avgPos = Vector.zero();
     normalizedAvgPos = Vector.zero();
+
+    controller.enableGesture(Gesture.Type.TYPE_SWIPE);
+
     
   }
 
@@ -52,7 +57,8 @@ class PointerListener extends Listener {
       FingerList fingers = hand.fingers();
       if (fingers.count() > 0) {
 
-        detectHandSpread(hand);
+        gestureList = frame.gestures();
+        detectOpenHandSwipe(hand);
 
         d("Fingers!");
         avgPos = Vector.zero();
@@ -100,6 +106,23 @@ boolean haveSpreadHand() {
    
 
  }
+
+boolean haveOpenHandSwipe()  {
+  return handSpreadSwipe;
+}
+
+// FIXME Make this reobust. This versoin assumes an awful lot.
+void detectOpenHandSwipe(Hand h) {
+  handSpreadSwipe = false;
+
+    detectHandSpread(h);
+   if (!haveSpreadHand() )  return;
+  
+   if ( gestureList.count() ==  0 ) return ;
+    
+   handSpreadSwipe = true;
+       
+}
 
   //------------------------------------------------------------
   boolean havePinch() {
