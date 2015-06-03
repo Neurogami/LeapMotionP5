@@ -11,10 +11,18 @@ int   minZ = 0;
 int   maxZ = 1;
 int   topX = 1;
 int   topY = 1;
+int   zMap = 0;
+int   y    = 0; 
+int   x    = 0; 
+
 
 int lastDrawingX = NULL_DRAWING_VALUE;
 int lastDrawingY = NULL_DRAWING_VALUE;
-int drawingWeight = 12;
+
+int brushWidth = 20;
+
+int minHue = 0;
+int maxHue = 255;
 
 boolean DEBUG = true;
 
@@ -38,11 +46,9 @@ int mapYforScreen(float yy) {
 
 //-------------------------------------------------------------------
 int zToColorInt(float fz) {
-  // If we are getting normalized values then they
-  // should always be within the the range ...
-  if (fz < minZ) { return 0; }
-  if (fz > maxZ) { return 255; }
-  return int(map(fz, minZ, maxZ,  0, 255));
+  if (fz < minZ) { return minHue; }
+  if (fz > maxZ) { return maxHue; }
+  return int(map(fz, minZ, maxZ,  minHue, maxHue));
 }
 
 
@@ -56,18 +62,16 @@ int zToColorInt(float fz) {
 // If the pinch is released then the last point get s set to nil or something; then the
 // new drawing begins as a solo point, not a line.
 void addToDrawing(PGraphics pg) {
-  int zMap = zToColorInt(lastPos().getZ());
-  int y = mapYforScreen( lastPos().getY() );
-  int x = mapXforScreen(lastPos().getX()); 
+// You want to be sure updateCursorValues() was called before this is used
 
   pg.beginDraw();
   pg.colorMode(HSB);
   pg.stroke(zMap, 255, 255);
-  pg.strokeWeight(drawingWeight);
+  pg.strokeWeight(brushWidth);
   pg.fill(zMap, 255, 255);
 
   if (lastDrawingX == NULL_DRAWING_VALUE ) {
-    pg.ellipse(x, y, drawingWeight/2, drawingWeight/2);
+    pg.ellipse(x, y, brushWidth/2, brushWidth/2);
   } else {
     pg.line(lastDrawingX, lastDrawingY, x, y );
   }
@@ -83,49 +87,50 @@ void bltImage(PGraphics pg) {
   image(pg, 0, 0); 
 }
 
+
+void updateCursorValues() {
+  zMap = zToColorInt(lastPos().getZ());
+  y = mapYforScreen( lastPos().getY() );
+  x = mapXforScreen(lastPos().getX()); 
+
+
+}
+
 // Is there a better way, something that avlid having to
 // recalc these positional values everplace they are needed?
 // Like an updateScreenCoords() ?
 void renderCursor() {
-  int zMap = zToColorInt(lastPos().getZ());
-  int y = mapYforScreen( lastPos().getY() );
-  int x = mapXforScreen(lastPos().getX()); 
 
   colorMode(HSB);
   fill(zMap, 255, 255);
   stroke(zMap, 255, 255);
-   strokeWeight(6);
-  ellipse(x, y, drawingWeight/2, drawingWeight/2);;
+  strokeWeight(brushWidth);
+  ellipse(x, y, brushWidth/2, brushWidth/2);
 
 
 }
 
 //-------------------------------------------------------------------
+// You want to be sure updateCursorValues() was called before this
 void writePosition(){
-  int zMap = zToColorInt(lastPos().getZ());
-  int baseY = mapYforScreen( lastPos().getY() );
   int inc = 30;
-  int xLoc = mapXforScreen(lastPos().getX()); 
 
   textSize(32);
 
-  // TEST 1: See if the Z value can be used to drive HSB
   colorMode(HSB);
   fill(zMap, 255, 100);
 
   //  d("lastPos() : " + lastPos() );
   // d("normalizedAvgPos  : " + normalizedAvgPos );
 
-  text("X: " + lastPos().getX(), xLoc, baseY);
-  text("Y: " + lastPos().getY(), xLoc, baseY + inc*2 );
-  text("Z: " + lastPos().getZ(), xLoc, baseY + inc*3 );
+  text("X: " + lastPos().getX(), x, y);
+  text("Y: " + lastPos().getY(), x, y + inc*2 );
+  text("Z: " + lastPos().getZ(), x, y + inc*3 );
 
-  text("min X: "  + xMin, xLoc, baseY + inc*4 );
-  text("max X: "  + xMax, xLoc, baseY + inc*5 );
+  text("min X: "  + xMin, x, y + inc*4 );
+  text("max X: "  + xMax, x, y + inc*5 );
 
-  text("min Y: "  + yMin, xLoc, baseY + inc*6 );
-  text("max Y: "  + yMax, xLoc, baseY + inc*7 );
-
-
+  text("min Y: "  + yMin, x, y + inc*6 );
+  text("max Y: "  + yMax, x, y + inc*7 );
 
 }

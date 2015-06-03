@@ -8,11 +8,18 @@ PGraphics       drawing;
 Configgy config;
 
 
+
 //-------------------------------------------------------------------
 void setup() {
   config = new Configgy("config.jsi");  
   size(config.getInt("width"), config.getInt("height"), P2D); // Is there a better rendering option?
   drawing = createGraphics(width, height);
+
+  brushWidth = config.getInt("brushWidth");
+
+  minHue = config.getInt("minHue");
+  maxHue = config.getInt("maxHue");
+
   background(255);
 }
 
@@ -20,6 +27,8 @@ void setup() {
 //-------------------------------------------------------------------
 void draw() {
   background(255);
+
+  updateCursorValues();  
   
   //  For some reason the app always starts off as if there is a pinch.
   //  For best results enter the interaction area with an open hand.
