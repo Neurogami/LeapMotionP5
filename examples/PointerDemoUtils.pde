@@ -26,6 +26,9 @@ int maxHue = 255;
 
 boolean DEBUG = true;
 
+int opacity = 128;
+
+
 //-------------------------------------------------------------------
 void d(String msg) {
   if (DEBUG) {
@@ -66,13 +69,14 @@ void addToDrawing(PGraphics pg) {
 
   pg.beginDraw();
   pg.colorMode(HSB);
-  pg.stroke(zMap, 255, 255);
-  pg.strokeWeight(brushWidth);
-  pg.fill(zMap, 255, 255);
+  pg.stroke(zMap, 255, 255, opacity);
+
+  pg.fill(zMap, 255, 255, opacity);
 
   if (lastDrawingX == NULL_DRAWING_VALUE ) {
-    pg.ellipse(x, y, brushWidth/2, brushWidth/2);
+    pg.ellipse(x, y, brushWidth/4, brushWidth/4);
   } else {
+    pg.strokeWeight(brushWidth/2);
     pg.line(lastDrawingX, lastDrawingY, x, y );
   }
 
@@ -104,7 +108,7 @@ void renderCursor() {
   colorMode(HSB);
   fill(zMap, 255, 255);
   stroke(zMap, 255, 255);
-  strokeWeight(brushWidth/2);
+  //strokeWeight(brushWidth/2);
   ellipse(x, y, brushWidth/2, brushWidth/2);
 
 

@@ -5,7 +5,8 @@ class PointerListener extends Listener {
   private Vector avgPos;
   private Vector normalizedAvgPos;
   private float ps;
-    
+  private boolean handSpread;
+  
   //------------------------------------------------------------
   void onInit(Controller controller) {
     // `d` is a helper method for printing debug stuff.
@@ -46,14 +47,18 @@ class PointerListener extends Listener {
     if (hands.count() > 0 ) {
       d("Hand!");
       Hand hand = hands.get(0);
-
+      
       
       FingerList fingers = hand.fingers();
       if (fingers.count() > 0) {
+
+        detectHandSpread(hand);
+
         d("Fingers!");
         avgPos = Vector.zero();
         ps = constrain(hand.pinchStrength(), 0.0, 1.0);
 
+        
        d("pinch Strength = " + ps );
       
         for (Finger finger : fingers) {
@@ -64,7 +69,7 @@ class PointerListener extends Listener {
         d("avgPos x: " + avgPos.getX() );
         normalizedAvgPos = box.normalizePoint(avgPos, true);
 
-      } // if fingers
+      } 
     } //  if hands 
   } 
 
@@ -74,6 +79,29 @@ class PointerListener extends Listener {
     return new com.leapmotion.leap.Vector(avgPos);
   }
 
+  //------------------------------------------------------------
+boolean haveSpreadHand() {
+
+
+  return handSpread;
+}
+
+ void detectHandSpread(Hand h) {
+
+   handSpread = false;
+   if (h.fingers().count() < 5 )  return;
+
+    for (Finger finger : h.fingers()) {
+       if ( !finger.isExtended() ) return ;
+    }
+
+   handSpread = true;
+ 
+   
+
+ }
+
+  //------------------------------------------------------------
   boolean havePinch() {
   
     // TODO Add Configgy so this threshold is user-defined
@@ -82,6 +110,7 @@ class PointerListener extends Listener {
   }
 
    return false;
+
 
  }
   //------------------------------------------------------------
