@@ -5,9 +5,13 @@ PointerListener listener   = new PointerListener();
 Controller      controller = new Controller(listener);
 PGraphics       drawing;
 
+Configgy config;
+
+
 //-------------------------------------------------------------------
 void setup() {
-  size(displayWidth, displayHeight, OPENGL);
+  config = new Configgy("config.jsi");  
+  size(config.getInt("width"), config.getInt("height"), P2D); // Is there a better rendering option?
   drawing = createGraphics(width, height);
   background(255);
 }
@@ -40,7 +44,8 @@ void draw() {
   }
   
   bltImage(drawing);
-  writePosition();
+  //writePosition();
+  renderCursor();
 
 }
 

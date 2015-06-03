@@ -26,6 +26,12 @@ examples/PointerLocation2/PointerDemoUtils.pde
 examples/PointerLocation3/PointerDemoUtils.pde
 examples/PointerLocation4/PointerDemoUtils.pde
 
+examples/PointerLocation1/Configgy.pde
+examples/PointerLocation2/Configgy.pde
+examples/PointerLocation3/Configgy.pde
+examples/PointerLocation4/Configgy.pde
+
+
 *.log
 
 examples/Trigga/code/*.*

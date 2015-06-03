@@ -14,6 +14,7 @@ int   topY = 1;
 
 int lastDrawingX = NULL_DRAWING_VALUE;
 int lastDrawingY = NULL_DRAWING_VALUE;
+int drawingWeight = 12;
 
 boolean DEBUG = true;
 
@@ -55,16 +56,15 @@ int zToColorInt(float fz) {
 // If the pinch is released then the last point get s set to nil or something; then the
 // new drawing begins as a solo point, not a line.
 void addToDrawing(PGraphics pg) {
-  int drawingWeight = 3;
   int zMap = zToColorInt(lastPos().getZ());
   int y = mapYforScreen( lastPos().getY() );
   int x = mapXforScreen(lastPos().getX()); 
 
   pg.beginDraw();
   pg.colorMode(HSB);
-  pg.stroke(zMap, 255, 100);
+  pg.stroke(zMap, 255, 255);
   pg.strokeWeight(drawingWeight);
-  pg.fill(zMap, 255, 100);
+  pg.fill(zMap, 255, 255);
 
   if (lastDrawingX == NULL_DRAWING_VALUE ) {
     pg.ellipse(x, y, drawingWeight/2, drawingWeight/2);
@@ -83,19 +83,20 @@ void bltImage(PGraphics pg) {
   image(pg, 0, 0); 
 }
 
-void writePositionPG(){
-  PGraphics pg = createGraphics(20,20);
+// Is there a better way, something that avlid having to
+// recalc these positional values everplace they are needed?
+// Like an updateScreenCoords() ?
+void renderCursor() {
   int zMap = zToColorInt(lastPos().getZ());
   int y = mapYforScreen( lastPos().getY() );
   int x = mapXforScreen(lastPos().getX()); 
 
-  pg.beginDraw();
-  pg.colorMode(HSB);
-  pg.fill(zMap, 255, 100);
-  pg.ellipse(10, 10,10,10);
-  pg.endDraw();
+  colorMode(HSB);
+  fill(zMap, 255, 255);
+  stroke(zMap, 255, 255);
+   strokeWeight(6);
+  ellipse(x, y, drawingWeight/2, drawingWeight/2);;
 
-  // image(pg, x, y);
 
 }
 
