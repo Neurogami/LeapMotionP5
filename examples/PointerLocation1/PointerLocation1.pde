@@ -30,7 +30,7 @@ void draw() {
 
   updateCursorValues();  
 
-  if (listener.haveSpreadHand())   drawing = createGraphics(width, height);
+  if (listener.haveOpenHandSwipe())   drawing = createGraphics(width, height);
   
   //  For some reason the app always starts off as if there is a pinch.
   //  For best results enter the interaction area with an open hand.
