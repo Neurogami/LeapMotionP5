@@ -1,7 +1,6 @@
 com.leapmotion.leap.Vector avgPos           = com.leapmotion.leap.Vector.zero();
 com.leapmotion.leap.Vector normalizedAvgPos = com.leapmotion.leap.Vector.zero();
 
-
 int NULL_DRAWING_VALUE = -99;
 
 float yMax = 0;
@@ -15,8 +14,6 @@ int   topY = 1;
 
 int lastDrawingX = NULL_DRAWING_VALUE;
 int lastDrawingY = NULL_DRAWING_VALUE;
-
-
 
 boolean DEBUG = true;
 
@@ -69,8 +66,8 @@ void addToDrawing(PGraphics pg) {
   fill(zMap, 255, 100);
 
   if (lastDrawingX == NULL_DRAWING_VALUE ) {
-     ellipse(x, y, drawingWeight/2, drawingWeight/2);
-    } else {
+    ellipse(x, y, drawingWeight/2, drawingWeight/2);
+  } else {
     line(lastDrawingX, lastDrawingY, x, y );
   }
 
@@ -82,6 +79,23 @@ void addToDrawing(PGraphics pg) {
 void bltImage(PGraphics pg) {
   image(pg, 0, 0); 
 }
+
+void writePositionPG(){
+  PGraphics pg = createGraphics(20,20);
+  int zMap = zToColorInt(lastPos().getZ());
+  int y = mapYforScreen( lastPos().getY() );
+  int x = mapXforScreen(lastPos().getX()); 
+
+  pg.beginDraw();
+  pg.colorMode(HSB);
+  pg.fill(zMap, 255, 100);
+  pg.ellipse(10, 10,10,10);
+  pg.endDraw();
+
+  // image(pg, x, y);
+
+}
+
 //-------------------------------------------------------------------
 void writePosition(){
   int zMap = zToColorInt(lastPos().getZ());

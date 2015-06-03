@@ -16,12 +16,9 @@ void setup() {
 //-------------------------------------------------------------------
 void draw() {
   
-
-  
   //  For some reason the app always starts off as if there is a pinch.
   //  For best results enter the interaction area with an open hand.
   if (listener.havePinch() ) {
-    d("*****************************************************************************");
 
      // TODO:  The code needs to paint to an offscreen buffer, adding to the image
      // when the fingers are pinched.
@@ -36,12 +33,13 @@ void draw() {
     addToDrawing(drawing);
   
   } else {
+    // FIXME This needs to be be in the utils thing
      lastDrawingX = NULL_DRAWING_VALUE;
      lastDrawingY = NULL_DRAWING_VALUE;
   }
   
 //  bltImage(drawing);
-  //writePosition();
+  writePositionPG();
 
 }
 
