@@ -15,6 +15,7 @@ void setup() {
 
 //-------------------------------------------------------------------
 void draw() {
+  background(255);
   
   //  For some reason the app always starts off as if there is a pinch.
   //  For best results enter the interaction area with an open hand.
@@ -38,8 +39,8 @@ void draw() {
      lastDrawingY = NULL_DRAWING_VALUE;
   }
   
-//  bltImage(drawing);
-  writePositionPG();
+  bltImage(drawing);
+  writePosition();
 
 }
 
