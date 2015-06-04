@@ -7,20 +7,17 @@ PGraphics       drawing;
 
 Configgy config;
 
-
+float pinchThreshold = 0.9;
 
 //-------------------------------------------------------------------
 void setup() {
   config = new Configgy("config.jsi");  
   size(config.getInt("width"), config.getInt("height"), P2D); // Is there a better rendering option?
   drawing = createGraphics(width, height);
-
   brushWidth = config.getInt("brushWidth");
-
   minHue = config.getInt("minHue");
   maxHue = config.getInt("maxHue");
-
-  background(255);
+  pinchThreshold config.getFloat("pinchThreshold");
 }
 
 
@@ -65,6 +62,7 @@ void draw() {
 // Track last postion as both normalized value and as raw value, and
 // make note of the largests and smallest raw values so we can see 
 // what range we get.
+// Why is this not part of the utils? Does it change in each pointer example?
 Vector lastPos() {
 
   Vector normlp = listener.normalizedAvgPos();

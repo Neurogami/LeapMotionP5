@@ -104,26 +104,20 @@ void updateCursorValues() {
 // recalc these positional values everplace they are needed?
 // Like an updateScreenCoords() ?
 void renderCursor() {
-
   colorMode(HSB);
   fill(zMap, 255, 255);
   stroke(zMap, 255, 255);
-  //strokeWeight(brushWidth/2);
   ellipse(x, y, brushWidth/2, brushWidth/2);
-
-
 }
 
 
 void renderConfidenceBorder() {
   strokeWeight(10);
   int redTone = int( (1.0 - listener.currentConfidence()) * 255 );
-//  d("================ " + redTone + "========================");
   colorMode(HSB);
   stroke(0, redTone, redTone );
   fill(0,0);
   rect(0,0, width, height);
-
 }
 
 //-------------------------------------------------------------------
