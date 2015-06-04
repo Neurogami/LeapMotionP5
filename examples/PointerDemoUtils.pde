@@ -38,12 +38,12 @@ void d(String msg) {
 
 //-------------------------------------------------------------------
 int mapXforScreen(float xx) {
-  return( int( map(xx, 0.0, 1.0, 0.0, width-130) ) );
+  return( int( map(xx, 0.0, 1.0, 0.0, width) ) );
 }
 
 //-------------------------------------------------------------------
 int mapYforScreen(float yy) {
-  return( int( map(yy, 0.0, 1.0,  height, 10) ) );
+  return( int( map(yy, 0.0, 1.0,  height, 0) ) );
 }
 
 
@@ -54,18 +54,11 @@ int zToColorInt(float fz) {
   return int(map(fz, minZ, maxZ,  minHue, maxHue));
 }
 
-
-
-
 //-------------------------------------------------------------------
 // This works, sort of.
 // The problme is latency in detecting pinch and then placing the ellipse.
-// Even if you never release the pinhc there are gaps.  
-// Something needs to track the last location and draw a line form that point to the new point.
-// If the pinch is released then the last point get s set to nil or something; then the
-// new drawing begins as a solo point, not a line.
 void addToDrawing(PGraphics pg) {
-// You want to be sure updateCursorValues() was called before this is used
+  // You want to be sure updateCursorValues() was called before this is used
 
   pg.beginDraw();
   pg.colorMode(HSB);
@@ -74,7 +67,7 @@ void addToDrawing(PGraphics pg) {
   pg.fill(zMap, 255, 255, opacity);
 
   if (lastDrawingX == NULL_DRAWING_VALUE ) {
-    pg.ellipse(x, y, brushWidth/4, brushWidth/4);
+    pg.ellipse(x, y, 1, 1);
   } else {
     pg.strokeWeight(brushWidth/2);
     pg.line(lastDrawingX, lastDrawingY, x, y );
@@ -84,7 +77,6 @@ void addToDrawing(PGraphics pg) {
 
   lastDrawingX = x;
   lastDrawingY = y;
-
 }
 
 void bltImage(PGraphics pg) {
