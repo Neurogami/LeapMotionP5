@@ -8,6 +8,7 @@ class PointerListener extends Listener {
   private boolean handSpread;
   private boolean handSpreadSwipe;
 
+  private float currentConfidence = 0.0;
   private GestureList gestureList;  
   //------------------------------------------------------------
   void onInit(Controller controller) {
@@ -52,7 +53,8 @@ class PointerListener extends Listener {
     if (hands.count() > 0 ) {
       d("Hand!");
       Hand hand = hands.get(0);
-      
+     
+      currentConfidence = hand.confidence(); 
       
       FingerList fingers = hand.fingers();
       if (fingers.count() > 0) {
@@ -106,6 +108,11 @@ boolean haveSpreadHand() {
    
 
  }
+
+float currentConfidence() {
+  return currentConfidence;
+}
+
 
 boolean haveOpenHandSwipe()  {
   return handSpreadSwipe;

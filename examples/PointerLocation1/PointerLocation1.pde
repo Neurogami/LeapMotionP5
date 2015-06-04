@@ -55,9 +55,10 @@ void draw() {
   }
   
   bltImage(drawing);
+
   //writePosition();
   renderCursor();
-
+  renderConfidenceBorder();
 }
 
 //-------------------------------------------------------------------

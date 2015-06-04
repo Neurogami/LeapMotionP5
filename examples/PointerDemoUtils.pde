@@ -114,6 +114,18 @@ void renderCursor() {
 
 }
 
+
+void renderConfidenceBorder() {
+  strokeWeight(10);
+  int redTone = int( (1.0 - listener.currentConfidence()) * 255 );
+//  d("================ " + redTone + "========================");
+  colorMode(HSB);
+  stroke(0, redTone, redTone );
+  fill(0,0);
+  rect(0,0, width, height);
+
+}
+
 //-------------------------------------------------------------------
 // You want to be sure updateCursorValues() was called before this
 void writePosition(){
