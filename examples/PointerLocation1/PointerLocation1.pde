@@ -17,7 +17,7 @@ void setup() {
   brushWidth = config.getInt("brushWidth");
   minHue = config.getInt("minHue");
   maxHue = config.getInt("maxHue");
-  pinchThreshold config.getFloat("pinchThreshold");
+  pinchThreshold = config.getFloat("pinchThreshold");
 }
 
 
