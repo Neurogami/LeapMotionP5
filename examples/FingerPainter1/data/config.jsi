@@ -1,0 +1,7 @@
+height: 1000
+width: 1200
+brushWidth: 50
+minHue: 30
+maxHue: 230
+pinchThreshold: 0.9
+
