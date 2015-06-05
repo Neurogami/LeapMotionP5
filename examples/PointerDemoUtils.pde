@@ -56,7 +56,7 @@ int zToColorInt(float fz) {
 
 //-------------------------------------------------------------------
 // This works, sort of.
-// The problme is latency in detecting pinch and then placing the ellipse.
+// The problem is latency in detecting pinch and then placing the ellipse.
 void addToDrawing(PGraphics pg) {
   // You want to be sure updateCursorValues() was called before this is used
 
