@@ -25,13 +25,12 @@ examples/PointerLocation2/PointerDemoUtils.pde
 examples/PointerLocation3/PointerDemoUtils.pde
 examples/PointerLocation4/PointerDemoUtils.pde
 
-examples/PointerLocation1/Configgy.pde
-examples/PointerLocation2/Configgy.pde
-examples/PointerLocation3/Configgy.pde
-examples/PointerLocation4/Configgy.pde
 
 examples/FingerPainter1/Configgy.pde
-
+examples/FingerPainter1/FingerPainterUtils.pde
+examples/FingerPainter1/application.macosx
+examples/FingerPainter1/application.windows64
+examples/FingerPainter1/application.windows32
 
 *.log
 
