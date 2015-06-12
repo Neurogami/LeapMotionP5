@@ -3,7 +3,7 @@
  * ##library.sentence##
  * ##library.url##
  *
- * Copyright 2013 James Britt / Neurogami 
+ * Copyright James Britt / Neurogami 
  *
  * The MIT License (MIT)
  * 
