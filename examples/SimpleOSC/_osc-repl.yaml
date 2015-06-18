@@ -1,0 +1,12 @@
+:port: 8000
+:address: 127.0.0.1
+
+:initial_messages:
+  - /renoise/transport/start
+  - /renoise/transport/stop
+  - /renoise/song/bpm 122
+  - /renoise/song/track/1/device/1/set_parameter_by_index 1 0.5
+  - /renoise/song/track/1/device/2/set_parameter_by_name "X-Axis"  0.1
+  - /renoise/song/sequence/trigger 8 
+  - /renoise/song/sequence/trigger 2 | /renoise/song/bpm 122 | /renoise/transport/start 
+
