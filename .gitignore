@@ -32,6 +32,11 @@ examples/FingerPainter1/application.macosx
 examples/FingerPainter1/application.windows64
 examples/FingerPainter1/application.windows32
 
+
+examples/FingerPainterSP3
+
+examples/SimpleOSC
+
 *.log
 
 examples/Trigga/code/*.*
