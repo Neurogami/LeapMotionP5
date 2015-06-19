@@ -1,11 +1,10 @@
-circle:[ ["/ng/circle", "x"] ]
 pinch:[ ["/renoise/song/track/1/device/2/set_parameter_by_name", "s:Y-Axis,y"], ["/renoise/song/track/1/device/2/set_parameter_by_name", "s:X-Axis,x"]]
 oscListeningPort: 7199
 oscServerPort: 8000
 oscServerIP: 127.0.0.1
 sendOSC: true
-height: 300
-width: 300
+height: 200
+width: 200
 brushWidth: 5
 pinchThreshold: 0.9
 

@@ -51,7 +51,7 @@ int del_zToColorInt(float fz) {
 
 //-------------------------------------------------------------------
 void updateCursorValues(SimpleOSCListener listener) {
-  zMap =  10;
+  zMap = 10; // FIXME Magic numbers are bad news.
   if ( listener.havePinch() ) { zMap = 100; }
   y = mapYforScreen( listener.normalizedAvgPos().getY() );
   x = mapXforScreen(listener.normalizedAvgPos().getX()); 
@@ -76,8 +76,10 @@ void renderConfidenceBorder() {
 }
 
 //-------------------------------------------------------------------
-// You want to be sure updateCursorValues() was called before this
 void writePosition(SimpleOSCListener listener){
+  
+  updateCursorValues(listener);
+
   int inc = 30;
 
   textSize(32);

@@ -41,7 +41,7 @@ class SimpleOSCListener extends Listener {
 
   //------------------------------------------------------------
   void onFrame(Controller controller) {
-    Frame frame = controller.frame();
+    com.leapmotion.leap.Frame frame = controller.frame();
     InteractionBox box = frame.interactionBox();
     HandList hands = frame.hands();
 
