@@ -35,6 +35,7 @@ examples/FingerPainter1/application.windows32
 
 examples/FingerPainterSP3
 
+examples/SimpleOSC/dev-notes.md
 
 *.log
 

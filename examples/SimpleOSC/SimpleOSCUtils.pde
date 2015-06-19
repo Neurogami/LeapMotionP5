@@ -41,7 +41,7 @@ int mapYforScreen(float yy) {
 
 
 //-------------------------------------------------------------------
-int zToColorInt(float fz) {
+int del_zToColorInt(float fz) {
   if (fz < minZ) { return minZ; }
   if (fz > maxZ) { return maxZ; }
   return int(map(fz, minZ, maxZ,  0, 255));
