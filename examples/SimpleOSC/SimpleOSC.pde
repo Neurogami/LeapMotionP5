@@ -66,7 +66,7 @@ void setup() {
 void draw() {
   background(255);
 
-  if (placementFlag < 1) { placeWindow(); }
+  if (placementFlag < 2) { placeWindow(); }
   
   updateCursorValues(listener);  
   renderCursor();
