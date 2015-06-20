@@ -33,6 +33,11 @@ float locX = 0;
 float locY = 0;
 float locZ = 0;
 
+
+int currentState = 0;
+int maxStates = 1;
+HashMap<Integer,String> stateMap;
+
 int placementFlag = 0;
 
 //-------------------------------------------------------------------
@@ -49,23 +54,32 @@ void setup() {
   frame.setAlwaysOnTop(true);
   placementFlag = 0;
 
-   
-
  
   brushWidth = config.getInt("brushWidth");
   pinchThreshold = config.getFloat("pinchThreshold");
 
   args =  new HashMap<Character,Float>();
-  osc = new OscManager(config);
-
-  pinchMsgFormats =  config.getStringList("pinch");
+ osc = new OscManager(config);
  
+  
+
+  stateMap = config.getHashMapN("states"); 
+  println("stateMap: " + stateMap);
+  maxStates = stateMap.size();
+//  pinchMsgFormats =  config.getStringList("pinch");
+ 
+  setCurrentMessages();
+
 }
+
+
+
 
 //-------------------------------------------------------------------
 void draw() {
   background(255);
 
+  // TODO: Find out why the placement code needs repeated invocation
   if (placementFlag < 2) { placeWindow(); }
   
   updateCursorValues(listener);  
@@ -85,12 +99,12 @@ void draw() {
 
 }
 
+//-------------------------------------------------------------------
 void setCoordArgs() {
   args.clear();
   args.put('x', listener.normalizedAvgPos().getX() );
   args.put('y', listener.normalizedAvgPos().getY());
   args.put('z', listener.normalizedAvgPos().getZ());
-
 }
 
 //-------------------------------------------------------------------
@@ -103,10 +117,30 @@ void onPinchEvent() {
 
 }
 
+
 //-------------------------------------------------------------------
-void onSweepEvent() {
- // setSweepArgs();  
- 
+// 
+void setCurrentMessages() {
+  println("0. currentState = " + currentState );
+// Hack while we sort this out.
+println("1. stateMap  = " + stateMap);
+ String mappedMsg = (String) stateMap.get(currentState); 
+  println("2. mappedMsg  = '" + mappedMsg  + "'");
+ pinchMsgFormats =  config.getStringList(mappedMsg);
+  println("pinchMsgFormats  = " + pinchMsgFormats );
+}
+
+//-------------------------------------------------------------------
+void rotateCurrentState(){
+  currentState++;
+  currentState %= maxStates;
+  setCurrentMessages();
+}
+
+
+//-------------------------------------------------------------------
+void onSweepEvent() { 
+ rotateCurrentState(); 
 }
 
 void placeWindow() {

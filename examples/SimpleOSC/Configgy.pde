@@ -202,6 +202,24 @@ class Configgy {
 
   }
 
+   HashMap<Integer,String> getHashMapN(String k) {
+   
+     HashMap<Integer, String> h = new HashMap<Integer, String>();
+    JSONObject jo = json.getJSONObject(k);
+
+    println("json.getJSONObject("+h+") = " + jo); // DEBUG
+
+    Iterator keys = jo.keyIterator();
+
+    while( keys.hasNext() ) {
+      String key_name = (String) keys.next(); 
+      h.put(parseInt(key_name),  jo.getString(key_name));
+    }
+    println("* * * *  getHashMapN returning " + h ); // DEBUG
+    return h;
+
+  }
+
 
   int[] getInts(String k) {
     JSONArray values = json.getJSONArray(k);
