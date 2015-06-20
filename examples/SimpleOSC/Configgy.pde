@@ -1,3 +1,18 @@
+//-------------------------------------------------------------------
+//  Configgy reads in a file holding config data.
+//  The file format is "sort of json"
+//  Each line is assumed to be valid json, absent wrapping braces.
+//
+//  You can read about this at http://jamesbritt.com/posts/getting-configgy-with-processing.html
+//  
+//  The basic idea is to make writing simple key:value settings super easy,
+//  and more complex entries possible.
+//
+//  The code is constantly evolving based on usage.
+//
+//-------------------------------------------------------------------
+
+
 import java.util.Map;
 import java.util.Iterator;
 

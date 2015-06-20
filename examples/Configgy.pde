@@ -1,3 +1,18 @@
+//-------------------------------------------------------------------
+//  Configgy reads in a file holding config data.
+//  The file format is "sort of json"
+//  Each line is assumed to be valid json, absent wrapping braces.
+//
+//  You can read about this at http://jamesbritt.com/posts/getting-configgy-with-processing.html
+//  
+//  The basic idea is to make writing simple key:value settings super easy,
+//  and more complex entries possible.
+//
+//  The code is constantly evolving based on usage.
+//
+//-------------------------------------------------------------------
+
+
 import java.util.Map;
 import java.util.Iterator;
 
@@ -66,7 +81,7 @@ class Configgy {
 
   // Assorted accessor methods
   String getValue(String k) { return json.getString(k); }
-  
+
   String getValue(String k, String defaultVal ) { 
     String val = defaultVal;
     try {
@@ -130,6 +145,34 @@ class Configgy {
     }
   }
 
+  //--------------------------------------------------------------
+  String[][] getStringList(String k) {
+  
+    JSONArray values = json.getJSONArray(k);
+    println("values : " + values  );
+
+    String[][] strings = new String[values.size()][2];
+
+    for (int i = 0; i < values.size(); i++) {
+      println("values.getJSONArray(i) = " + values.getJSONArray(i) );
+      strings[i] = jsonArrayToStrings(values.getJSONArray(i));
+    }
+    return strings;
+  }
+
+  //--------------------------------------------------------------
+  String[] jsonArrayToStrings( JSONArray values ) {
+    String[] strings = new String[values.size()];
+    for (int i = 0; i < values.size(); i++) {
+      strings[i] = values.getString(i);
+    }
+    return strings;
+  }
+
+
+
+  //--------------------------------------------------------------
+  //  NOTE: Things asplode if you call the wrong 'getXXX' method
   String[] getStrings(String k) {
     JSONArray values = json.getJSONArray(k);
     String[] strings = new String[values.size()];
@@ -188,6 +231,7 @@ class Configgy {
     return booleans;
   }
 
-}
+  }
+
 
 
