@@ -3,7 +3,7 @@ import netP5.*;
 
 import java.util.HashMap;
 
-/***************************************************************/
+//-------------------------------------------------------------------
 class ThreadedOscSend extends Thread {
 
   OscMessage msg;
@@ -19,22 +19,22 @@ class ThreadedOscSend extends Thread {
   boolean haveArgs = false;
 
 
-  /***************************************************************/
+  //-------------------------------------------------------------------
   // See if these server things are not available as global stuff thanks to the main sketch
   public ThreadedOscSend(OscP5 oscP5, NetAddress remoteOscServer ){
     this.oscP5 = oscP5;
     this.remoteOscServer = remoteOscServer;
   }
 
-  /***************************************************************/
-//   public void setMsgData(String[] addrPatternAndArgs, HashMap<Character,Float> args) {
-//     addressPattern = addrPatternAndArgs[0];
-//     this.argStrings = addrPatternAndArgs[1].split(",");
-//     this.args = args;
-//     this.haveArgs  = false;
-//   }
+  //-------------------------------------------------------------------
+  //   public void setMsgData(String[] addrPatternAndArgs, HashMap<Character,Float> args) {
+  //     addressPattern = addrPatternAndArgs[0];
+  //     this.argStrings = addrPatternAndArgs[1].split(",");
+  //     this.args = args;
+  //     this.haveArgs  = false;
+  //   }
 
-  /***************************************************************/
+  //-------------------------------------------------------------------
   // It gets even more tricky if we want that args to contain values other than
   // float, but for now ..
   // FIXME: Think of efficient way to pass args of varyinf data types. 
@@ -46,16 +46,16 @@ class ThreadedOscSend extends Thread {
 
 
 
-  /***************************************************************/
-//   public void setMsgData(String addrPattern, int i) {
-//     addressPattern = addrPattern;
-//     this.argStrings = argStrings;
-//     this.args = args;
-//     this.haveArgs  = false;
-//   }
+  //-------------------------------------------------------------------
+  //   public void setMsgData(String addrPattern, int i) {
+  //     addressPattern = addrPattern;
+  //     this.argStrings = argStrings;
+  //     this.args = args;
+  //     this.haveArgs  = false;
+  //   }
 
 
-  /***************************************************************/
+  //-------------------------------------------------------------------
   // new version: There is a use caae with Renoise where the message 
   // requires a specific value, and not one from the Leap data.
   // For example:
@@ -73,23 +73,19 @@ class ThreadedOscSend extends Thread {
 
   public OscMessage makeMessage(String[] msgStuff) {
 
-    // println("makeMessage msgStuff = " + msgStuff );
     String addressPattern = msgStuff[0];
-  
+
     String[] argStrings     = msgStuff[1].split(",");
-  
-   // println("argStrings = " + argStrings ); 
-   //println("args = " + args.toString()  ); 
+
+    // println("argStrings = " + argStrings ); 
+    //println("args = " + args.toString()  ); 
     msg = new OscMessage(addressPattern);
     //String t = "";
 
     for( String t : argStrings) {
-  //  for( int i =0; i < argStrings.length; i++ ) {
-//      t = argStrings[i];
       // FIXME: We assume the tag types are always float,
       // and that what we are checking are hash keys
-      println("t = " + t );
-      //   println("args.get(t.charAt(0)) ) = " + args.get( t.charAt(0) ) );
+      // println("t = " + t );
       if (t.indexOf(':') > 0 ) {
         String[] foo = t.split(":");
         switch ( foo[0].charAt(0) ) {
@@ -113,23 +109,19 @@ class ThreadedOscSend extends Thread {
     return msg;
   }
 
-  /***************************************************************/
+  //-------------------------------------------------------------------
   public void makeMessages() {
-  bundle = new OscBundle();
-  println("makeMessages. addrPatternAndArgsArray.length = " + addrPatternAndArgsArray.length);
+    bundle = new OscBundle();
 
-  for( int i = 0; i < addrPatternAndArgsArray.length;  i++ ){
-    bundle.add(makeMessage(addrPatternAndArgsArray[i]));
-
-  }
-    
-  
+    for( int i = 0; i < addrPatternAndArgsArray.length;  i++ ){
+      bundle.add(makeMessage(addrPatternAndArgsArray[i]));
+    }
   }
 
-  /***************************************************************/
+  //-------------------------------------------------------------------
   public void run(){
     makeMessages();
-//    println("Sending " + msg + " to " + remoteOscServer);
+    //    println("Sending " + msg + " to " + remoteOscServer);
     oscP5.send(bundle, remoteOscServer); 
     //    try {
     //    Thread.sleep(this.duration);

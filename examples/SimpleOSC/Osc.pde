@@ -87,7 +87,7 @@ What if there were also some arg-specific methods? for example:
    */
   /***************************************************************/
   OscManager(Configgy config ) {
-    println("Creating an OscManager!");
+    // println("Creating an OscManager!");
     oscP5 = new OscP5(this, config.getInt("oscListeningPort"));
     oscServer = new NetAddress(config.getString("oscServerIP"), config.getInt("oscServerPort"));
   }
@@ -104,17 +104,11 @@ What if there were also some arg-specific methods? for example:
 
   /***************************************************************/
   public void sendBundle(String[][] addrPatternAndArgsArray, HashMap<Character,Float> args ) {
-    println("* send OSC BUNDLE to " + addrPatternAndArgsArray );
-
-
+    // println("* send OSC BUNDLE to " + addrPatternAndArgsArray );
     ThreadedOscSend _ts = new ThreadedOscSend(oscP5, oscServer);
-
     _ts.setBundleData(addrPatternAndArgsArray, args);
     new Thread(_ts).start();
   }
-
-
-
 
 }
 

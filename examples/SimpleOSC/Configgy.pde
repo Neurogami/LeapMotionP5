@@ -36,10 +36,9 @@ class Configgy {
       println("Error loading data from '" + configFile + "'");
       e.printStackTrace();
     }
-
-
   }
 
+  //-------------------------------------------------------------------
   // Return just the lines that have config data
   String[] getDataLines(String[] configTextLines) {
     String[] dataLines = {};
@@ -47,7 +46,6 @@ class Configgy {
 
     for (int i=0; i < configTextLines.length; i++) {
       line = trim(configTextLines[i]);
-
       if ( ( line.indexOf("#") != 0 ) &&  ( line.indexOf(":") > 0 ) )  {
         dataLines = append(dataLines,  line);  
       }
@@ -56,6 +54,7 @@ class Configgy {
   }
 
 
+  //-------------------------------------------------------------------
   // Assumes we have a set of congig lines, each being of the form
   //    keyName: validJsonExpression
   String configToJson(String[] configTextLines) {
@@ -79,9 +78,11 @@ class Configgy {
   }
 
 
+  //-------------------------------------------------------------------
   // Assorted accessor methods
   String getValue(String k) { return json.getString(k); }
 
+  //-------------------------------------------------------------------
   String getValue(String k, String defaultVal ) { 
     String val = defaultVal;
     try {
@@ -92,8 +93,10 @@ class Configgy {
     }
   }
 
+  //-------------------------------------------------------------------
   String getString(String k) { return json.getString(k); }
 
+  //-------------------------------------------------------------------
   String getString(String k, String defaultVal ) { 
     String val = defaultVal;
     try {
@@ -105,8 +108,10 @@ class Configgy {
   }
 
 
+  //-------------------------------------------------------------------
   int getInt(String k) { return json.getInt(k); }
 
+  //-------------------------------------------------------------------
   int getInt(String k, int defaultVal ) { 
     int val = defaultVal;
 
@@ -119,7 +124,10 @@ class Configgy {
     }
   }
 
+  //-------------------------------------------------------------------
   float getFloat(String k) { return json.getFloat(k); }
+
+  //-------------------------------------------------------------------
   float getFloat(String k, float defaultVal ) { 
     float val = defaultVal;
 
@@ -132,8 +140,10 @@ class Configgy {
     }
   }
 
+  //-------------------------------------------------------------------
   boolean getBoolean(String k) { return json.getBoolean(k); }
 
+  //-------------------------------------------------------------------
   boolean getBoolean(String k, boolean defaultVal) { 
     boolean val = defaultVal;
 
@@ -147,14 +157,9 @@ class Configgy {
 
   //--------------------------------------------------------------
   String[][] getStringList(String k) {
-  
     JSONArray values = json.getJSONArray(k);
-    println("values : " + values  );
-
     String[][] strings = new String[values.size()][2];
-
     for (int i = 0; i < values.size(); i++) {
-      println("values.getJSONArray(i) = " + values.getJSONArray(i) );
       strings[i] = jsonArrayToStrings(values.getJSONArray(i));
     }
     return strings;
@@ -182,6 +187,7 @@ class Configgy {
     return strings;
   }
 
+  //-------------------------------------------------------------------
   // Assumes the JSON "hashmap" is string:string.
   // Might look at adding some ways to get other kinds of maps.
   // However, if the client really needs, say, strings and ints then
@@ -195,19 +201,15 @@ class Configgy {
     while( keys.hasNext() ) {
       String key_name = (String) keys.next(); 
       h.put(key_name,  jo.getString(key_name));
-
     }
-
     return h;
-
   }
 
-   HashMap<Integer,String> getHashMapN(String k) {
-   
-     HashMap<Integer, String> h = new HashMap<Integer, String>();
-    JSONObject jo = json.getJSONObject(k);
+  //-------------------------------------------------------------------
+  HashMap<Integer,String> getHashMapN(String k) {
 
-    println("json.getJSONObject("+h+") = " + jo); // DEBUG
+    HashMap<Integer, String> h = new HashMap<Integer, String>();
+    JSONObject jo = json.getJSONObject(k);
 
     Iterator keys = jo.keyIterator();
 
@@ -215,12 +217,11 @@ class Configgy {
       String key_name = (String) keys.next(); 
       h.put(parseInt(key_name),  jo.getString(key_name));
     }
-    println("* * * *  getHashMapN returning " + h ); // DEBUG
     return h;
 
   }
 
-
+  //-------------------------------------------------------------------
   int[] getInts(String k) {
     JSONArray values = json.getJSONArray(k);
     int[] ints = new int[values.size()];
@@ -230,6 +231,7 @@ class Configgy {
     return ints;
   }
 
+  //-------------------------------------------------------------------
   float[] getFloats(String k) {
     JSONArray values = json.getJSONArray(k);
     float[] floats = new float[values.size()];
@@ -240,6 +242,7 @@ class Configgy {
   }
 
 
+  //-------------------------------------------------------------------
   boolean[] getBooleans(String k) {
     JSONArray values = json.getJSONArray(k);
     boolean[] booleans= new boolean[values.size()];
@@ -249,6 +252,6 @@ class Configgy {
     return booleans;
   }
 
-  }
+}
 
 

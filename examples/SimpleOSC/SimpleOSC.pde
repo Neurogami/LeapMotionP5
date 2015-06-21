@@ -38,6 +38,9 @@ int currentState = 0;
 int maxStates = 1;
 HashMap<Integer,String> stateMap;
 
+int lastStateChange = millis();
+int STATE_CHANGE_DELAY = 1000;
+
 int placementFlag = 0;
 
 //-------------------------------------------------------------------
@@ -60,15 +63,12 @@ void setup() {
 
   args =  new HashMap<Character,Float>();
  osc = new OscManager(config);
- 
   
-
   stateMap = config.getHashMapN("states"); 
-  println("stateMap: " + stateMap);
   maxStates = stateMap.size();
-//  pinchMsgFormats =  config.getStringList("pinch");
  
   setCurrentMessages();
+  lastStateChange = millis();
 
 }
 
@@ -78,6 +78,9 @@ void setup() {
 //-------------------------------------------------------------------
 void draw() {
   background(255);
+  textSize(32);
+  fill(20);
+    text(currentState, 2, 32);
 
   // TODO: Find out why the placement code needs repeated invocation
   if (placementFlag < 2) { placeWindow(); }
@@ -87,10 +90,11 @@ void draw() {
   renderConfidenceBorder();
 
   if ( listener.havePinch()  ) { onPinchEvent(); }
+  if ( listener.haveOpenHandSwipe()  ) { onSwipeEvent(); }
 
   if (keyPressed) {
     if (key == 's' || key == 'S') {
-      onSweepEvent();
+      onSwipeEvent();
     }
     if (key == 'p' || key == 'P') {
       onPinchEvent();
@@ -109,25 +113,15 @@ void setCoordArgs() {
 
 //-------------------------------------------------------------------
 void onPinchEvent() {
-
   setCoordArgs();
-  println("call sendBundle with " + args.toString() );
-
   osc.sendBundle(pinchMsgFormats, args );
 
 }
 
-
 //-------------------------------------------------------------------
-// 
 void setCurrentMessages() {
-  println("0. currentState = " + currentState );
-// Hack while we sort this out.
-println("1. stateMap  = " + stateMap);
  String mappedMsg = (String) stateMap.get(currentState); 
-  println("2. mappedMsg  = '" + mappedMsg  + "'");
  pinchMsgFormats =  config.getStringList(mappedMsg);
-  println("pinchMsgFormats  = " + pinchMsgFormats );
 }
 
 //-------------------------------------------------------------------
@@ -137,12 +131,15 @@ void rotateCurrentState(){
   setCurrentMessages();
 }
 
-
 //-------------------------------------------------------------------
-void onSweepEvent() { 
- rotateCurrentState(); 
+void onSwipeEvent() { 
+  if (millis() - lastStateChange > STATE_CHANGE_DELAY) { 
+    lastStateChange = millis();
+    rotateCurrentState(); 
+  }
 }
 
+//-------------------------------------------------------------------
 void placeWindow() {
   GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
   GraphicsDevice[] gs = ge.getScreenDevices();

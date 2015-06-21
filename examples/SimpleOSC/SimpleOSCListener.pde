@@ -16,7 +16,10 @@ class SimpleOSCListener extends Listener {
     avgPos = Vector.zero();
     normalizedAvgPos = Vector.zero();
     currentConfidence = 0.0;
+    controller.setPolicy(Controller.PolicyFlag.POLICY_BACKGROUND_FRAMES);
     controller.enableGesture(Gesture.Type.TYPE_SWIPE);
+    controller.config().setFloat("Gesture.Swipe.MinLength", 66000.0f);
+    controller.config().save();
   }
 
   //------------------------------------------------------------
@@ -46,14 +49,12 @@ class SimpleOSCListener extends Listener {
     HandList hands = frame.hands();
 
     if (hands.count() > 0 ) {
-      // d("Hand!");
       Hand hand = hands.get(0);
       currentConfidence = hand.confidence(); 
       FingerList fingers = hand.fingers();
       if (fingers.count() > 0) {
         gestureList = frame.gestures();
         detectOpenHandSwipe(hand);
-        // d("Fingers!");
         avgPos = Vector.zero();
         ps = constrain(hand.pinchStrength(), 0.0, 1.0);
          //d("pinch Strength = " + ps );
@@ -63,13 +64,11 @@ class SimpleOSCListener extends Listener {
         }
 
         avgPos = avgPos.divide(fingers.count());
-        // d("avgPos x: " + avgPos.getX() );
         normalizedAvgPos = box.normalizePoint(avgPos, true);
 
       } 
-    } //  if hands 
+    } 
   } 
-
 
   //------------------------------------------------------------
   com.leapmotion.leap.Vector avgPos(){
@@ -83,10 +82,8 @@ class SimpleOSCListener extends Listener {
 
   //------------------------------------------------------------
   void detectHandSpread(Hand h) {
-
     handSpread = false;
     if (h.fingers().count() < 5 )  return;
-
     for (Finger finger : h.fingers()) {
       if ( !finger.isExtended() ) return ;
     }
@@ -102,7 +99,6 @@ class SimpleOSCListener extends Listener {
   boolean haveOpenHandSwipe()  {
     return handSpreadSwipe;
   }
-
 
   //------------------------------------------------------------
   void detectOpenHandSwipe(Hand h) {
