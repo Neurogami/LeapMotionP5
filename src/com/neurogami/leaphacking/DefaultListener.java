@@ -49,6 +49,7 @@ class DefaultListener extends Listener {
   Method onFrameCallback = null;
   /*
      Need to think about how the user can set or enable or detect gestures.
+     The Leap examples show setting Gesture stuff in onInit.
      */
 
   //------------------------------------------------------------

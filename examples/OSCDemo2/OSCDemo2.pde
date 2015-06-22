@@ -1,5 +1,3 @@
-
-
 import com.neurogami.leaphacking.*;
 import com.leapmotion.leap.*;
 
@@ -41,15 +39,12 @@ int lastStateChange = millis();
 int STATE_CHANGE_DELAY = 1000;
 
 int placementFlag = 0;
-///////////////////////////
 
 boolean handSpread;
 boolean handSpreadSwipe;
 float currentConfidence; 
 GestureList gestureList;  
 
-
-///////////////////////////
 //-------------------------------------------------------------------
 void setup() {
   config = new Configgy("config.jsi");  
@@ -65,6 +60,17 @@ void setup() {
   // It means the Leap listener will call back to the onFrame method defined here
   leap = new LeapMotionP5(this, true);
   leap.allowBackgroundProcessing(true);
+
+    currentConfidence = 0.0;
+
+    // Currently, the callback approach does not let you do stuff in the
+  // Listner instance onInit to set gestreu stuff.  But you can still do it by grabbing
+  // the Controller instance that is part of the LeapMotionP5 instance.
+    leap.controller.setPolicy(Controller.PolicyFlag.POLICY_BACKGROUND_FRAMES);
+    leap.controller.enableGesture(Gesture.Type.TYPE_SWIPE);
+    leap.controller.config().setFloat("Gesture.Swipe.MinLength", 66000.0f);
+    leap.controller.config().save();
+
 
   frame.setAlwaysOnTop(true);
   placementFlag = 0;
@@ -100,17 +106,7 @@ void draw() {
   renderCursor();
   renderConfidenceBorder();
 
-  if ( havePinch()  ) { onPinchEvent(); }
-  if ( haveOpenHandSwipe()  ) { onSwipeEvent(); }
-
-  if (keyPressed) {
-    if (key == 's' || key == 'S') {
-      onSwipeEvent();
-    }
-    if (key == 'p' || key == 'P') {
-      onPinchEvent();
-    }  
-  } 
+  
 
 }
 
@@ -131,7 +127,6 @@ void onFrame(com.leapmotion.leap.Controller controller) {
       detectOpenHandSwipe(hand);
       avgPos = Vector.zero();
       ps = constrain(hand.pinchStrength(), 0.0, 1.0);
-      //d("pinch Strength = " + ps );
 
       for (Finger finger : fingers) {
         avgPos  = avgPos.plus(finger.tipPosition());
@@ -140,6 +135,8 @@ void onFrame(com.leapmotion.leap.Controller controller) {
       avgPos = avgPos.divide(fingers.count());
       normalizedAvgPos = box.normalizePoint(avgPos, true);
 
+      if (haveOpenHandSwipe() ) {onSwipeEvent();}
+      if (havePinch() ) {onPinchEvent();}
     }
     redraw(); 
   } 
@@ -175,6 +172,7 @@ boolean haveOpenHandSwipe()  {
 
 //------------------------------------------------------------
 void detectOpenHandSwipe(Hand h) {
+
   handSpreadSwipe = false;
   detectHandSpread(h);
   if (!haveSpreadHand() )  return;
@@ -188,11 +186,6 @@ boolean havePinch() {
   return false;
 
 }
-
-
-//////////////////////////////////////////////////
-
-
 
 //-------------------------------------------------------------------
 void setCoordArgs() {

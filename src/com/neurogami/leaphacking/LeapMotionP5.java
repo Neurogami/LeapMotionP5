@@ -88,7 +88,6 @@ public class LeapMotionP5 {
     controller = createController(defaultListener);
   }
 
-
   public Controller createController(Object listener) {
     return( new Controller( (Listener) listener) );
   }
