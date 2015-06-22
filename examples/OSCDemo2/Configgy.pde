@@ -221,6 +221,24 @@ class Configgy {
 
   }
 
+
+//-------------------------------------------------------------------
+// The naming has gotne WAY hackish
+  HashMap<Integer,Integer> getHashMapNN(String k) {
+
+    HashMap<Integer,Integer> h = new HashMap<Integer,Integer>();
+    JSONObject jo = json.getJSONObject(k);
+
+    Iterator keys = jo.keyIterator();
+
+    while( keys.hasNext() ) {
+      String key_name = (String) keys.next(); 
+      h.put(parseInt(key_name),  jo.getInt(key_name));
+    }
+    return h;
+
+  }
+
   //-------------------------------------------------------------------
   int[] getInts(String k) {
     JSONArray values = json.getJSONArray(k);

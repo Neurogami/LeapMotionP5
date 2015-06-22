@@ -29,6 +29,8 @@ int extendedFingerCount = 0;
 
 float ps;
 
+
+int textSize = 18;
 float locX = 0;
 float locY = 0;
 float locZ = 0;
@@ -36,10 +38,13 @@ float locZ = 0;
 int currentState = 0;
 int maxStates = 1;
 HashMap<Integer,String> stateMap;
+HashMap<Integer,Integer> muteMap;
+
 
 int lastMuteChange  = millis();
 int lastStateChange = millis();
-int CHANGE_DELAY = 100;
+int SPACE_CHANGE_DELAY = 100;
+int STATE_CHANGE_DELAY = 1000;
 
 int placementFlag = 0;
 
@@ -67,7 +72,7 @@ void setup() {
   frame.addNotify();
 
   size(config.getInt("width"), config.getInt("height")); // Is there a better rendering option?
-  noLoop(); // The sketch will call `redraw` as needed
+  noLoop(); // The sketch will call `redraw` as needed; that in turn calls `draw`
 
   // Use this constructor: LeapMotionP5(PApplet ownerP, boolean useCallbackListener )
   // It means the Leap listener will call back to the onFrame method defined here
@@ -95,6 +100,7 @@ void setup() {
   osc = new OscManager(config);
 
   stateMap = config.getHashMapN("states"); 
+  muteMap = config.getHashMapNN("muteMapping"); 
   maxStates = stateMap.size();
 
   setCurrentMessages();
@@ -108,10 +114,10 @@ void setup() {
 //-------------------------------------------------------------------
 void draw() {
   background(255);
-  textSize(32);
+  textSize(textSize);
   fill(20);
-  text(currentState, 2, 32);
-
+  text(currentState, 4, textSize+4);
+  text(extendedFingerCount, height-textSize, width-textSize);
   // TODO: Find out why the placement code needs repeated invocation
   if (placementFlag < 2) { placeWindow(); }
 
@@ -136,6 +142,7 @@ void onFrame(com.leapmotion.leap.Controller controller) {
   com.leapmotion.leap.Frame frame = controller.frame();
   InteractionBox box = frame.interactionBox();
   HandList hands = frame.hands();
+  extendedFingerCount  = 0;
 
   if (hands.count() > 0 ) {
     Hand hand = hands.get(0);
@@ -237,7 +244,7 @@ void rotateCurrentState(){
 
 //-------------------------------------------------------------------
 void onSwipeEvent() { 
-  if (millis() - lastStateChange > CHANGE_DELAY) { 
+  if (millis() - lastStateChange > STATE_CHANGE_DELAY) { 
     lastStateChange = millis();
     rotateCurrentState(); 
   }
@@ -246,7 +253,7 @@ void onSwipeEvent() {
 
 void onSpaceFingers(int numFingers) {
 println("* * * * *  onSpaceFingers " + numFingers);
-  if (millis() - lastMuteChange > CHANGE_DELAY) { 
+  if (millis() - lastMuteChange > SPACE_CHANGE_DELAY) { 
     lastMuteChange = millis();
     // TODO Figure out a way to make this behavior configurable
     sendMuteOsc(numFingers); 
@@ -285,7 +292,7 @@ println("sendMuteOsc: " + numFingers);
 
   println("trackMuteLastSent[numFingers-1] = " + trackMuteLastSent[numFingers-1] );
 
-    muteMessage[0][0] = "/renoise/song/track/"+numFingers+"/" + cmd;
+    muteMessage[0][0] = "/renoise/song/track/"+muteMap.get(numFingers)+"/" + cmd;
     muteMessage[0][1] = "" ;
    osc.sendBundle(muteMessage, args);
 }

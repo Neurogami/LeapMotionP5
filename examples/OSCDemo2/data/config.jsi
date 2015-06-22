@@ -1,5 +1,6 @@
-pinch1:[ ["/renoise/song/track/1/device/2/set_parameter_by_name", "s:Y-Axis,y"], ["/renoise/song/track/1/device/2/set_parameter_by_name", "s:X-Axis,x"]]
-pinch2:[ ["/renoise/song/track/2/device/2/set_parameter_by_name", "s:Y-Axis,y"], ["/renoise/song/track/2/device/2/set_parameter_by_name", "s:X-Axis,x"]]
+pinch1:[ ["/renoise/song/track/6/device/2/set_parameter_by_name", "s:Y-Axis,y"], ["/renoise/song/track/6/device/2/set_parameter_by_name", "s:X-Axis,x"]]
+pinch2:[ ["/renoise/song/track/10/device/2/set_parameter_by_name", "s:Y-Axis,y"], ["/renoise/song/track/10/device/2/set_parameter_by_name", "s:X-Axis,x"]]
+pinch3:[ ["/renoise/song/track/14/device/2/set_parameter_by_name", "s:Y-Axis,y"], ["/renoise/song/track/14/device/2/set_parameter_by_name", "s:X-Axis,x"]]
 oscListeningPort: 7199
 oscServerPort: 8000
 oscServerIP: 127.0.0.1
@@ -8,4 +9,5 @@ height: 200
 width: 200
 brushWidth: 5
 pinchThreshold: 0.9
-states: {0:"pinch1", 1:"pinch2"}
+states: {0:"pinch1", 1:"pinch2", 2:"pinch3"}
+muteMapping:{1:6, 2:10, 3:14, 4:16, 5:17}
