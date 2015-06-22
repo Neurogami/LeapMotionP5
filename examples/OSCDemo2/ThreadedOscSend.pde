@@ -37,7 +37,7 @@ class ThreadedOscSend extends Thread {
   //-------------------------------------------------------------------
   // It gets even more tricky if we want that args to contain values other than
   // float, but for now ..
-  // FIXME: Think of efficient way to pass args of varyinf data types. 
+  // FIXME: Think of efficient way to pass args of varying data types. 
   public void setBundleData(String[][] addrPatternAndArgsArray, HashMap<Character,Float> args) {
     this.addrPatternAndArgsArray = addrPatternAndArgsArray;
     this.args = args;
@@ -101,8 +101,12 @@ class ThreadedOscSend extends Thread {
         }
       }
       else { 
+        if (t.length() > 0 ) {
         // Why does a NPE sometimes occur here?
-        msg.add( args.get(t.charAt(0))  );
+          if (args.get( t.charAt(0) ) != null  ) {
+          msg.add( args.get(t.charAt(0))  );
+          }
+        }
       }
     }
 
