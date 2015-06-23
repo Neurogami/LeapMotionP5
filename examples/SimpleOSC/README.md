@@ -39,7 +39,7 @@ The demo has a few restrictions but nothing that will prevent you from loading t
 
 This track was created in order to have some simple but usable for the demo.  
 
-The song (and Renoise file) is copyright James Britt/Neurogami
+The song (and Renoise file) is copyright [James Britt](jamesbritt.com) / [Neurogami](https://neurogami.com)
 
 It is provided under the Creative Commons license  Attribution-NonCommercial-ShareAlike  [CC BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
@@ -50,14 +50,15 @@ Learn more about OSC at [osc.justthebestparts.com](http://osc.justthebestparts.c
 
 
 
-## License
 
+## Copyright and license 
 
-The sketch is copyright James Britt /Neurogami and is released under the [MIT License](http://opensource.org/licenses/MIT)
+Copyright [James Britt](jamesbritt.com) / [Neurogami](https://neurogami.com)
+
+The code is released under the [MIT license](http://opensource.org/licenses/MIT)
 
 
     Feed your head
     Hack your world
     Live curious
-
 

@@ -80,7 +80,7 @@ The demo has a few restrictions but nothing that will prevent you from loading t
 
 You can hear more at [http://music.neurogami.com](music.neurogami.com)
 
-The song (and Renoise file) is copyright James Britt/Neurogami
+The song (and Renoise file) is copyright [James Britt](jamesbritt.com) / [Neurogami](https://neurogami.com)
 
 It is provided under the Creative Commons license  Attribution-NonCommercial-ShareAlike  [CC BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
@@ -90,10 +90,12 @@ It is provided under the Creative Commons license  Attribution-NonCommercial-Sha
 Learn more about OSC at [osc.justthebestparts.com](http://osc.justthebestparts.com)
 
 
-## License
 
+## Copyright and license 
 
-The sketch is copyright James Britt /Neurogami and is released under the [MIT License](http://opensource.org/licenses/MIT)
+Copyright [James Britt](jamesbritt.com) / [Neurogami](https://neurogami.com)
+
+The code is released under the [MIT license](http://opensource.org/licenses/MIT)
 
 
     Feed your head
