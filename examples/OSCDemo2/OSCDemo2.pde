@@ -62,7 +62,7 @@ boolean[] trackMuteLastSent = new boolean[5];
 
 //-------------------------------------------------------------------
 void setup() {
-  config = new Configgy("config.jsi");  
+  config = new Configgy(sketchPath + "/config.jsi");  
 
   for(int x=0; x< trackMuteLastSent.length; x++) 
       trackMuteLastSent[x] = false;
