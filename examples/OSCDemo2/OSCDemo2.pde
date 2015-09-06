@@ -86,7 +86,7 @@ void setup() {
   // the Controller instance that is part of the LeapMotionP5 instance.
   leap.controller.setPolicy(Controller.PolicyFlag.POLICY_BACKGROUND_FRAMES);
   leap.controller.enableGesture(Gesture.Type.TYPE_SWIPE);
-  leap.controller.config().setFloat("Gesture.Swipe.MinLength", 66000.0f);
+  leap.controller.config().setFloat("Gesture.Swipe.MinLength", 6000.0f);
   leap.controller.config().save();
 
 
