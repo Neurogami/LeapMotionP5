@@ -8,7 +8,7 @@ Processing  library for the Leap Motion controller
 
 james@neurogami.com
 
-See also the [Leap Hacking](http://leaphacking.com) Web site for news and articles about making the most of your Leap Motion device.
+See also the [Leap Hacking](http://leaphacking.jamesbritt.com/) Web site for news and articles about making the most of your Leap Motion device.
 
 
 Description
