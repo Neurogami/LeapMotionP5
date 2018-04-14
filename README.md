@@ -1,9 +1,9 @@
 Project has moved to GitLab
 ===========================
 
-All deveopment is now happening over on [GitLab](https://gitlab.com/ProcessingNG/LeapMotion).
+All development is now happening over on [GitLab](https://gitlab.com/ProcessingNG/LeapMotion).
 
-Code has been updated to work wth Provessing v3 and the latest Leap Motion SDK.
+Code has been updated to work with Processing v3 and the latest Leap Motion SDK.
 
 
 
