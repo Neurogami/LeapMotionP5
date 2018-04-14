@@ -1,7 +1,17 @@
+Project has moved to GitLab
+===========================
+
+All deveopment is now happening over on [GitLab](https://gitlab.com/ProcessingNG/LeapMotion).
+
+Code has been updated to work wth Provessing v3 and the latest Leap Motion SDK.
+
+
+
+
 LeapMotionP5
 ============
 
-Processing  library for the Leap Motion controller
+Processing V2 library for the Leap Motion controller
 
 
 [James Britt / Neurogami](http://www.neurogami.com)
